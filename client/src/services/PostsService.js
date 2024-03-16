@@ -1,4 +1,5 @@
-import Api from "@/services/Api"
+import Api from "./Api"
+
 
 export default {
     fetchPosts() {
