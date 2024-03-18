@@ -1,7 +1,7 @@
 import React from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { CardActionArea } from '@mui/material';
+import { CardActionArea, Link } from '@mui/material';
 
 const Rutina = ({rutina}) => {
 
@@ -15,7 +15,7 @@ const Rutina = ({rutina}) => {
         flexDirection: 'column',
         justifyContent: 'space-between',
       }}>
-        <CardActionArea>
+        <CardActionArea component={Link} to={`/product/${id}`}>
         {rutina.Rutina}
         <CardContent>
             <p>{rutina.Descripcion}</p>

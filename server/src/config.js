@@ -4,7 +4,8 @@ const Schema = mongoose.Schema;
 
 const rutinaSchema = new Schema({
   Rutina: String,
-  Descripcion: String
+  Descripcion: String,
+  ejercicios: [String]
 });
 
 const Rutina = mongoose.model('Rutina', rutinaSchema);
