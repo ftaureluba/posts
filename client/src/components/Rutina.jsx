@@ -3,9 +3,11 @@ import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { CardActionArea } from '@mui/material';
 
-function Rutina(props) {
-    const {nombre, descripcion} = props;
+const Rutina = ({rutina}) => {
+
+
   return (
+    
     <Card sx={{
         maxWidth: 345,
         height: '100%',
@@ -14,9 +16,9 @@ function Rutina(props) {
         justifyContent: 'space-between',
       }}>
         <CardActionArea>
-        {nombre}
+        {rutina.Rutina}
         <CardContent>
-            <p>{descripcion}</p>
+            <p>{rutina.Descripcion}</p>
         </CardContent>
         </CardActionArea>    
     </Card>

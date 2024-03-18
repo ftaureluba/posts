@@ -11,14 +11,12 @@ app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('HOME');
-});
+
 
 app.get('/posts', (req, res) => {
   res.send([{
     title: "Hello World!",
-    description: "Como andas"
+    description: "Como annnnnnnndas"
   }]);
 });
 
@@ -34,20 +32,35 @@ mongoose.connect(config.mongoDBURL)
     async function findRutinas() {
       try {
         const rutinas = await Rutina.find({});
-        console.log(rutinas); // Log the array of documents
-        rutinas.forEach(rutina => {
-          console.log(rutina); // Log each document
-          console.log(rutina.Rutina); // Log a specific field of each document
-          console.log(rutina.Descripcion); // Log another specific field of each document
-        });
+        console.log(rutinas)
+        return rutinas
+        
       } catch (error) {
         console.error('Error finding rutinas:', error);
       }
-    }
-
+    }/*
+    app.get('/', (req, res) => {
+      res.send('HOME', async (req, res)=>{
+        try {
+          const rutinas = await findRutinas();
+          res.json(rutinas)
+        }catch(err) {
+          res.status(500).send('Error encontrando las rutinas')
+        }
+      });
+    });*/
+    app.get('/', async (req, res) => {
+      try {
+        const rutinas = await findRutinas();
+        res.json(rutinas);
+      } catch (err) {
+        res.status(500).send('Error finding rutinas');
+      }
+    });
     // Call the function to execute the query
     findRutinas();
   })
+  
   .catch((error) => {
     console.error('Error connecting to the database:', error);
   });
@@ -57,9 +70,3 @@ const port = process.env.PORT || 8081;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
-/* Rutina.find({}).then(docs => {
-    console.log('Rutinas encontradas:', docs);
-    app.get('/', (req, res) => {
-      res.send('Rutinas encontradas: ' + JSON.stringify(docs));
-    });
-  });*/

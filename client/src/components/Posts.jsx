@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import PostsService from '../services/PostsService';
-
+import {apiService} from '../services/PostsService'
 function Posts() {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await PostsService.fetchPosts();
+        const response = await apiService.fetchData('/posts');
         setPosts(response.data);
       } catch (error) {
         console.error('Error fetching posts:', error);

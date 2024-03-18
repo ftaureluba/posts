@@ -1,8 +1,9 @@
 import Api from "./Api"
 
-
-export default {
-    fetchPosts() {
-        return Api().get('posts')
+console.log(Api())
+let apiService = {
+    fetchData(endpoint){
+        return Api().get(endpoint)
     }
 }
+export {apiService}
