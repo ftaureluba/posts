@@ -2,8 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
-const config = require('./config'); // Make sure the path to config.js is correct
-
+const config = require('./config'); 
 const mongoose = require('mongoose');
 const app = express();
 
@@ -20,15 +19,12 @@ app.get('/posts', (req, res) => {
   }]);
 });
 
-// Connect to the MongoDB database
 mongoose.connect(config.mongoDBURL)
   .then(() => {
     console.log('App conectada');
 
-    // Define the Rutina model
     const Rutina = config.Rutina;
-
-    // Async function to find rutinas
+    
     async function findRutinas() {
       try {
         const rutinas = await Rutina.find({});
@@ -38,17 +34,7 @@ mongoose.connect(config.mongoDBURL)
       } catch (error) {
         console.error('Error finding rutinas:', error);
       }
-    }/*
-    app.get('/', (req, res) => {
-      res.send('HOME', async (req, res)=>{
-        try {
-          const rutinas = await findRutinas();
-          res.json(rutinas)
-        }catch(err) {
-          res.status(500).send('Error encontrando las rutinas')
-        }
-      });
-    });*/
+    }
     app.get('/', async (req, res) => {
       try {
         const rutinas = await findRutinas();
@@ -57,15 +43,31 @@ mongoose.connect(config.mongoDBURL)
         res.status(500).send('Error finding rutinas');
       }
     });
-    // Call the function to execute the query
-    findRutinas();
+    /*
+    async function updateDocument() {
+    const filter = {Rutina: "Legs"}
+    const doc = await Rutina.findOneAndUpdate(filter,
+       {ejercicios: [
+        "exercise_pullups",
+  "exercise_lat_pulldowns",
+  "exercise_seated_rows",
+  "exercise_standing_rows",
+  "exercise_pullovers",
+  "exercise_bicep_curl",
+  "exercise_incline_bicep_curl",
+  "exercise_preacher_curls",      Metodo para updatear el mongo db con un filtro (me va a servir mas adelante seguro)
+  "exercise_cable_seated_rows",
+  "exercise_shrugs"
+      ]})
+    }
+    updateDocument();*/
+    findRutinas(); 
   })
   
   .catch((error) => {
     console.error('Error connecting to the database:', error);
   });
 
-// Start the server
 const port = process.env.PORT || 8081;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

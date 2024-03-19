@@ -1,11 +1,12 @@
 import React from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { CardActionArea, Link } from '@mui/material';
-
+import { CardActionArea, Typography } from '@mui/material';
+import { Link } from 'react-router-dom';
 const Rutina = ({rutina}) => {
 
-
+  const rutinaID = rutina._id.toString();
+  const ejercicios = rutina.ejercicios
   return (
     
     <Card sx={{
@@ -15,10 +16,16 @@ const Rutina = ({rutina}) => {
         flexDirection: 'column',
         justifyContent: 'space-between',
       }}>
-        <CardActionArea component={Link} to={`/product/${id}`}>
+        <CardActionArea component={Link} to={`/${rutinaID}`}>
         {rutina.Rutina}
         <CardContent>
             <p>{rutina.Descripcion}</p>
+            
+            {ejercicios.map((ejercicio, index) => (
+            <Typography key={index} variant="body2" color="text.primary">
+              - {ejercicio}
+            </Typography>
+          ))}
         </CardContent>
         </CardActionArea>    
     </Card>
