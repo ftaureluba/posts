@@ -28,7 +28,7 @@ mongoose.connect(config.mongoDBURL)
     async function findRutinas() {
       try {
         const rutinas = await Rutina.find({});
-        console.log(rutinas)
+        
         return rutinas
         
       } catch (error) {
@@ -43,6 +43,16 @@ mongoose.connect(config.mongoDBURL)
         res.status(500).send('Error finding rutinas');
       }
     });
+    app.get('/:rutina_id', async (req, res) => {
+      try{
+        const rutina = await Rutina.findOne({_id: req.params.rutina_id})
+        if (!rutina) {
+          return res.status(404).send('Rutina not found');
+        }
+        console.log(rutina)
+        res.json(rutina)
+      }catch(err) {res.status(500).send('error buscando rutinas')}
+    })
     /*
     async function updateDocument() {
     const filter = {Rutina: "Legs"}
@@ -68,7 +78,7 @@ mongoose.connect(config.mongoDBURL)
     console.error('Error connecting to the database:', error);
   });
 
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8082;
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });

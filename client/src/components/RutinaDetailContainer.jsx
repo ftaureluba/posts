@@ -9,8 +9,8 @@ function RutinaDetailContainer() {
     const {rutina_id} = useParams();
     async function fetchEjercicios() {
         try {
-            const response = await apiService.fetchData('./ejercicios');
-            setEjercicios(response.data)
+            const response = await apiService.fetchData(`/${rutina_id}`);
+            setEjercicios(response.data.ejercicios)
         }catch (err) {
             console.log(err)
         }
@@ -20,7 +20,9 @@ function RutinaDetailContainer() {
     }, [rutina_id]
     )
     return (
-        <RutinaDetail />
+        
+        <RutinaDetail props = {ejercicios}/>
+        
   )
 }
 
