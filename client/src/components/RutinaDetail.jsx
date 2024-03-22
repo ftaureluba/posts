@@ -49,8 +49,19 @@ function RutinaDetail(ejercicios) {
     try {
       // Send the entire workout data to the server
 
-      const response = await apiService.PostData('/api/workouts', workoutData)
-      
+      const dataToSend = {
+        date: new Date(), // You can use the current date or let MongoDB set it by default
+        exercises: workoutData.map((workout) => ({
+          name: workout.exercise, // Assuming workout.exercise is a string
+          sets: workout.sets.map((set) => ({
+            reps: Number(set.reps), // Convert reps and weight to numbers
+            weight: Number(set.weight)
+          }))
+        }))
+      };
+      // Send the entire workout data to the server
+      const response = await apiService.PostData('/api/workouts', dataToSend);
+  
       console.log(response.data);
       // Optionally, clear the form after submission
       
