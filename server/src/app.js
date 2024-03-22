@@ -24,7 +24,7 @@ mongoose.connect(config.mongoDBURL)
     console.log('App conectada');
 
     const Rutina = config.Rutina;
-    
+    const Workout = config.Workout;
     async function findRutinas() {
       try {
         const rutinas = await Rutina.find({});
@@ -49,11 +49,34 @@ mongoose.connect(config.mongoDBURL)
         if (!rutina) {
           return res.status(404).send('Rutina not found');
         }
-        console.log(rutina)
         res.json(rutina)
       }catch(err) {res.status(500).send('error buscando rutinas')}
     })
-    /*
+    app.post('/api/workouts', async (req, res) => {
+      try {
+        const newWorkout = new Workout(req.body);
+        const savedWorkout = await newWorkout.save();
+        res.status(201).json(savedWorkout);
+        console.log("Guardado correctamente?:")
+        console.log(savedWorkout)
+      } catch (err) {
+        res.status(500).send("Error saving workout");
+      }
+    });
+    findRutinas(); 
+  })
+  
+  .catch((error) => {
+    console.error('Error connecting to the database:', error);
+  });
+
+const port = process.env.PORT || 8082;
+app.listen(port, () => {
+  console.log(`Server running on port ${port}`);
+});
+
+
+/*
     async function updateDocument() {
     const filter = {Rutina: "Legs"}
     const doc = await Rutina.findOneAndUpdate(filter,
@@ -71,14 +94,3 @@ mongoose.connect(config.mongoDBURL)
       ]})
     }
     updateDocument();*/
-    findRutinas(); 
-  })
-  
-  .catch((error) => {
-    console.error('Error connecting to the database:', error);
-  });
-
-const port = process.env.PORT || 8082;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
