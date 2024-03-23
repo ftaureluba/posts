@@ -5,12 +5,15 @@ const morgan = require('morgan');
 const config = require('./config'); 
 const mongoose = require('mongoose');
 const app = express();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
-
+dotenv.config()
 
 app.get('/posts', (req, res) => {
   res.send([{
