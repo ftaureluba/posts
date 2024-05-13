@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { TextField } from '@mui/material';
 
 function Login() {
 
@@ -30,6 +32,7 @@ function Login() {
   return (
       <div>
           <form onSubmit={handleSubmit}>
+            <div>
               <label>
                   Email:
                   <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
@@ -39,6 +42,11 @@ function Login() {
                   <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
               </label>
               <button type="submit">Login</button>
+            </div>
+            <div>
+                <p>No tienes una cuenta?</p>
+                <Link to='/signup'>Signup</Link>
+            </div>
           </form>
       </div>
   );

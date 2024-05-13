@@ -159,7 +159,7 @@ function NavbarComponent() {
                 ))}
               </Menu>
             </Box>)
-            : <Link to='/Login.jsx' >Log in</Link>
+            : <Link to='/Login' >Log in</Link>
           }
         </Toolbar>
       </Container>

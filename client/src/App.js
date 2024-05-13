@@ -18,7 +18,7 @@ function App() {
           <Route path="/posts" element={<Posts />} />
           <Route path='/:rutina_id/' element = {<RutinaDetailContainer />}/>
           <Route path='/login' element={<Login/>} />
-          <Route path='/register' element={<Signup />} />
+          <Route path='/signup' element={<Signup />} />
         </Routes>
       </div>
     </AuthProvider>
