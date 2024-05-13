@@ -153,6 +153,9 @@ app.post('/signup', async (req, res) => {
     res.status(500).send('Error creating user');
   }
 });
+app.get('/protected-route', verifyToken, (req, res) => {
+  res.send('You are authenticated');
+});
 
 const port = process.env.PORT || 8082;
 app.listen(port, () => {

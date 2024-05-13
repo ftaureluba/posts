@@ -3,11 +3,28 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
-  username: { type: String, required: true, unique: true },
-  password: { type: String, required: true }, 
-  email: { type: String, required: true, unique: true },
-  profilePicture: String,
-  workoutGoals: String,
+  username: {
+    type: String,
+    required: true,
+    min: 6,
+    max: 255
+  },
+  email: {
+    type: String,
+    required: true,
+    max: 255,
+    min: 6
+  },
+  password: {
+    type: String,
+    required: true,
+    max: 1024,
+    min: 6
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  },
   workouts: [{ type: Schema.Types.ObjectId, ref: 'Workout' }]
   // Other user-related fields
 });
