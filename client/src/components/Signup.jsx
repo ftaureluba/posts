@@ -1,19 +1,38 @@
 import React, {useState} from 'react'
-import {useNavigate} from 'react-router-dom'
+import {Navigate, useNavigate} from 'react-router-dom'
+import { apiService } from '../services/PostsService';
 
 
 function Signup() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const history = useNavigate();
+    const [username, setUsername] = useState('');
+    const navigate = useNavigate();
   
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
       event.preventDefault();
       // Here you would typically make a request to your server to authenticate the user
       // For now, we'll just log the email and password
+      try {
+        // Collect the user data
+        const userData = {
+          username: username, // Assuming username is a state variable holding the username input
+          email: email, // Assuming email is a state variable holding the email input
+          password: password // Assuming password is a state variable holding the password input
+        };
+      
+        // Send the user data to the server
+        const response = await apiService.PostData('/signup', userData);
+      
+        console.log(response.data);
+        // Optionally, clear the form after submission
+        
+      } catch (error) {
+        console.error('Error signing up:', error);
+      }      
       console.log(`Email: ${email}, Password: ${password}`);
       // After successful login, redirect the user to the home page
-      history.push('/');
+      navigate('/');
     };
   
     return (
@@ -23,6 +42,12 @@ function Signup() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Email"
+        />
+        <input 
+          type="username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          placeholder="Username"
         />
         <input
           type="password"
