@@ -1,28 +1,31 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { TextField } from '@mui/material';
+import { apiService } from '../services/PostsService';
+import AuthContext from './AuthContext';
 
 function Login() {
-
+    const {login} = useContext(AuthContext)
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const history = useNavigate(); // lo voy a tener que usar para volver al home una vez se logue de manera exitosa.
+    const navigate = useNavigate(); // lo voy a tener que usar para volver al home una vez se logue de manera exitosa.
 
     const handleSubmit = async (event) => {
       event.preventDefault();
       console.log(`Email: ${email}, Password: ${password}`);
 
       try {
-          const response = await axios.post('/api/login', { email, password });
+          const response = await apiService.PostData('/login', { email, password });
           const { token } = response.data;
 
           // Store the token in local storage or a cookie, depending on your preference
           localStorage.setItem('token', token);
-
+        login(token)
           // Redirect to the home page
-          history.push('/');
+          
+          navigate('/');
       } catch (error) {
           console.error('Login failed:', error);
           // Handle the error, e.g., show an error message to the user

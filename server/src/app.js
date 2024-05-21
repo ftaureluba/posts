@@ -128,7 +128,7 @@ app.post('/login', async (req, res) => {
 
     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
     if (!isPasswordValid) {
-      return res.status(400).send('Invalid password');
+      return res.status(400).send('Invalid email or password');
     }
 
     // Generate a JWT token
