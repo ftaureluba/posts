@@ -47,7 +47,7 @@ function RutinaDetail(ejercicios) {
   const handleSubmitAll = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token')
-    try {
+    try {/*
       // Send the entire workout data to the server
 
       const dataToSend = {
@@ -63,15 +63,22 @@ function RutinaDetail(ejercicios) {
       // Send the entire workout data to the server
       console.log(dataToSend)
       console.log(token)
-      const response = await apiService.PostData('/api/workouts', dataToSend, {
-        headers: {
-          'auth-token': token
-        }
-      });
+      const response = await apiService.PostData('/api/workouts', dataToSend);
   
       console.log(response.data);
-      // Optionally, clear the form after submission
-      
+      // Optionally, clear the form after submission*/
+      const dataToSend = {
+        date: new Date(),
+        exercises: workoutData.map((workout) => ({
+            name: workout.exercise,
+            sets: workout.sets.map((set) => ({
+                reps: Number(set.reps),
+                weight: Number(set.weight)
+            }))
+        }))
+    };
+    const response = await apiService.PostData('/api/workouts', dataToSend);
+    console.log(response.data);
     } catch (error) {
       console.error('Error submitting workouts:', error);
     }

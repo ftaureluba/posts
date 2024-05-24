@@ -1,13 +1,54 @@
-import Api from "./Api"
+/*import Api from "./Api"
 
 console.log(Api())
 let apiService = {
     fetchData(endpoint){
         return Api().get(endpoint)
     },
-    PostData(endpoint, data, headers){
-        headers = headers || {};
-        return Api().post(endpoint, data, {headers})
+    PostData(endpoint, data){
+        
+        return Api().post(endpoint, data)
     }
 }
-export {apiService}
+
+Api().interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem('token');
+      if (token) {
+        config.headers['auth-token'] = token;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+export {apiService}*/
+// PostService.js
+import Api from './Api';
+
+const apiInstance = Api();
+
+apiInstance.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            config.headers['auth-token'] = token;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+const apiService = {
+    fetchData(endpoint) {
+        return apiInstance.get(endpoint);
+    },
+    PostData(endpoint, data) {
+        return apiInstance.post(endpoint, data);
+    }
+};
+
+export { apiService };

@@ -28,8 +28,10 @@ console.log(mongoDBURL)
 
 
 const verifyToken = (req, res, next) => {
+  console.log("sacala chupaverga")
+  console.log(req.headers)
   const token = req.header('auth-token');
-  if (!token) return res.status(401).send('Access denied');
+  if (!token) return res.status(401).send('Access denied, chupavergas');
 
   try {
     const verified = jwt.verify(token, secretKey);
@@ -111,6 +113,7 @@ mongoose.connect(mongoDBURL)
       try {
         const user = await User.findById(req.user._id).populate('workouts');
         res.json(user.workouts);
+        console.log(req.headers)
       } catch (err) {
         res.status(500).send('Error fetching workouts');
       }
@@ -136,7 +139,8 @@ app.post('/login', async (req, res) => {
 
     // Generate a JWT token
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY);
-    res.header('auth-token', token).send(token);
+    res.header('auth-token', token).send({token});
+    console.log(token)
   } catch (error) {
     res.status(500).send('Error logging in');
   }
