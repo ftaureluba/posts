@@ -9,7 +9,7 @@ function Home() {
 import React, { useEffect, useState } from 'react';
 import Rutina from './Rutina';
 import { apiService } from '../services/PostsService';
-
+import '../styles/home.css';
 function Home ()  {
   const [rutinas, setRutinas] = useState([]);
 
@@ -27,10 +27,11 @@ function Home ()  {
   }, []);
 
   return (
-    <div>
+    <div className='home-container'>
       {rutinas.map(rutina => (
+        <div key={rutina._id} class='rutina-item'>
         <Rutina key={rutina._id} rutina={rutina} />
-        
+        </div>
       ))}
     </div>
   );
