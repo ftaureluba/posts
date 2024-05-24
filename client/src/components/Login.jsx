@@ -24,6 +24,7 @@ function Login() {
           localStorage.setItem('token', token);
         login(token)
           // Redirect to the home page
+          console.log(token)
           
           navigate('/');
       } catch (error) {

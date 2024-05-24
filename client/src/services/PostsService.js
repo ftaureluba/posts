@@ -5,8 +5,9 @@ let apiService = {
     fetchData(endpoint){
         return Api().get(endpoint)
     },
-    PostData(endpoint, data){
-        return Api().post(endpoint, data)
+    PostData(endpoint, data, headers){
+        headers = headers || {};
+        return Api().post(endpoint, data, {headers})
     }
 }
 export {apiService}

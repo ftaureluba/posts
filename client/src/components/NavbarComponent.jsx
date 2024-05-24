@@ -12,18 +12,20 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from './AuthContext';
 
-
-const pages = ['TBD1', 'TBD2', 'TBD3'];
+const pages = [
+  { title: 'Historial', path: '/historial' },
+  // Add more pages as needed
+];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavbarComponent() {
     const {isLoggedIn, logout} = React.useContext(AuthContext);
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-  
+    const navigate = useNavigate();
     const handleOpenNavMenu = (event) => {
       setAnchorElNav(event.currentTarget);
     };
@@ -38,6 +40,16 @@ function NavbarComponent() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+  const handleMenuItemClick = (setting) => {
+    if (setting === 'Logout') {
+      logout(); // Call the logout function
+    }
+    handleCloseUserMenu();
+  };
+  const handleNavigate = (path) => {
+    navigate(path);
+    handleCloseNavMenu();
   };
 
   return (
@@ -63,7 +75,7 @@ function NavbarComponent() {
             LOGO
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          {/*<Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -98,7 +110,7 @@ function NavbarComponent() {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+            </Box>*/}
           <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
@@ -118,19 +130,20 @@ function NavbarComponent() {
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map((page) => (
-              <Button
-                key={page}
-                onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-              >
-                {page}
+          
+          {isLoggedIn ? (
+            <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between' }}>
+              <Box sx={ {display: 'flex' /*{ flexGrow: 1, display: { xs: 'none', md: 'flex' } */}}>
+              {pages.map((page) => (
+                  <Button
+                    key={page.title}
+                    onClick={() => handleNavigate(page.path)}
+                    sx={{ my: 2, color: 'white', display: 'block' }}
+                  >
+                    {page.title}
               </Button>
             ))}
-          </Box>
-          {isLoggedIn ? (
-            <Box sx={{ flexGrow: 0 }}>
+             </Box>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -152,8 +165,11 @@ function NavbarComponent() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
+                {settings.map((setting) => (/*
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
+                    <Typography textAlign="center">{setting}</Typography>
+                  </MenuItem>*/
+                  <MenuItem key={setting} onClick={() => handleMenuItemClick(setting)}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>
                 ))}

@@ -91,13 +91,16 @@ mongoose.connect(mongoDBURL)
     });*/
     app.post('/api/workouts', verifyToken, async (req, res) => {
       try {
-        const newWorkout = new Workout(req.body);
+        const newWorkout = new Workout({
+          userId: req.user._id,
+          ...req.body
+        });
         const savedWorkout = await newWorkout.save();
     
         // Associate the workout with the user
-        const user = await User.findById(req.user._id);
+        /*const user = await User.findById(req.user._id);
         user.workouts.push(savedWorkout._id);
-        await user.save();
+        await user.save();*/
     
         res.status(201).json(savedWorkout);
       } catch (err) {

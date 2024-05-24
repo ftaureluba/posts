@@ -7,6 +7,7 @@ import Home from './components/Home';
 import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
 import { AuthProvider } from './components/AuthContext.jsx';
+import Historial from './components/Historial.jsx';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path='/:rutina_id/' element = {<RutinaDetailContainer />}/>
           <Route path='/login' element={<Login/>} />
           <Route path='/signup' element={<Signup />} />
+          <Route path='/historial' element = {<Historial />} />
         </Routes>
       </div>
     </AuthProvider>

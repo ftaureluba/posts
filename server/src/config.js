@@ -42,6 +42,7 @@ const exerciseSchema = new Schema({
 });
 
 const workoutSchema = new Schema({
+  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
   date: { type: Date, default: Date.now },
   exercises: [exerciseSchema]
 }, {collection: "workouts"});

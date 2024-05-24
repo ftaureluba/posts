@@ -7,7 +7,6 @@ import { apiService } from '../services/PostsService';
 function RutinaDetail(ejercicios) {
   const exercisesArray = ejercicios.props
 
-  console.log(exercisesArray)
   
   const [workoutData, setWorkoutData] = useState(
     exercisesArray.map((exercise) => ({
@@ -15,7 +14,6 @@ function RutinaDetail(ejercicios) {
       sets: [{ reps: '', weight: '' }]
     }))
   );
-  console.log(workoutData)
   // Function to handle changes to any form input
   useEffect(() => {
     if (exercisesArray && exercisesArray.length > 0) {
@@ -37,8 +35,10 @@ function RutinaDetail(ejercicios) {
 
   const addSet = (exerciseIndex) => {
     setWorkoutData((prevWorkoutData) => {
+      console.log(`agregando set a : ${exerciseIndex}`)
       const newWorkoutData = [...prevWorkoutData];
       newWorkoutData[exerciseIndex].sets.push({ reps: '', weight: '' });
+      
       return newWorkoutData;
     });
   };
@@ -46,6 +46,7 @@ function RutinaDetail(ejercicios) {
   // Function to handle form submission
   const handleSubmitAll = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token')
     try {
       // Send the entire workout data to the server
 
@@ -60,7 +61,13 @@ function RutinaDetail(ejercicios) {
         }))
       };
       // Send the entire workout data to the server
-      const response = await apiService.PostData('/api/workouts', dataToSend);
+      console.log(dataToSend)
+      console.log(token)
+      const response = await apiService.PostData('/api/workouts', dataToSend, {
+        headers: {
+          'auth-token': token
+        }
+      });
   
       console.log(response.data);
       // Optionally, clear the form after submission
