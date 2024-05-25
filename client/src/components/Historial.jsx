@@ -1,9 +1,55 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react';
+import { apiService } from '../services/PostsService';
+import '../styles/WorkoutHistory.css'; // Import styles for better appearance
 
-function Historial() {
+const WorkoutHistory = () => {
+  const [workouts, setWorkouts] = useState([]);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const fetchWorkouts = async () => {
+      try {
+        const response = await apiService.fetchData('/api/workouts');
+        setWorkouts(response.data);
+      } catch (err) {
+        setError('Error fetching workouts');
+      }
+    };
+
+    fetchWorkouts();
+  }, []);
+
   return (
-    <div>Historial</div>
-  )
-}
+    <div className="workout-history">
+      <h2>Your Workout History</h2>
+      {error && <p className="error">{error}</p>}
+      {workouts.length > 0 ? (
+        <ul className="workout-list">
+          {workouts.map((workout) => (
+            <li key={workout._id} className="workout-item">
+              <h3>{new Date(workout.date).toLocaleDateString()}</h3>
+              <ul>
+                {workout.exercises.map((exercise, index) => (
+                  <li key={index}>
+                    <strong>{exercise.name}</strong>
+                    <ul>
+                      {exercise.sets.map((set, setIndex) => (
+                        <li key={setIndex}>
+                          {set.reps} reps x {set.weight} kg
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No workouts found.</p>
+      )}
+    </div>
+  );
+};
 
-export default Historial
+export default WorkoutHistory;

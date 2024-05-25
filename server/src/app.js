@@ -111,13 +111,13 @@ mongoose.connect(mongoDBURL)
     });
     app.get('/api/workouts', verifyToken, async (req, res) => {
       try {
-        const user = await User.findById(req.user._id).populate('workouts');
-        res.json(user.workouts);
-        console.log(req.headers)
+        const workouts = await Workout.find({ userId: req.user._id }).sort({ date: -1 });
+        res.json(workouts);
       } catch (err) {
         res.status(500).send('Error fetching workouts');
       }
-    });
+    }
+  );
     findRutinas(); 
   })
   
