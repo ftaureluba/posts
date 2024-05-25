@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import {useParams} from 'react-router-dom';
 import { apiService } from '../services/PostsService';
 import RutinaDetail from './RutinaDetail';
-
+import styles from '../styles/rutinaDetailContainer.module.css'
 
 function RutinaDetailContainer() {
     const [ejercicios, setEjercicios] = useState([])
@@ -20,9 +20,9 @@ function RutinaDetailContainer() {
     }, [rutina_id]
     )
     return (
-        
+        <div className={styles.container}>
         <RutinaDetail props = {ejercicios}/>
-        
+        </div>
   )
 }
 

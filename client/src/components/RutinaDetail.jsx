@@ -3,6 +3,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import ExerciseForm from './ExerciseForm';
 import { apiService } from '../services/PostsService';
+import styles from '../styles/rutinaDetail.module.css'
 
 function RutinaDetail(ejercicios) {
   const exercisesArray = ejercicios.props
@@ -87,8 +88,8 @@ function RutinaDetail(ejercicios) {
   return (
     <div>
       {workoutData.map((workout, exerciseIndex) => (
-      <div key={exerciseIndex}>
-        <h2>{workout.exercise}</h2>
+      <div key={exerciseIndex} className={styles.exercise}>
+        <h2 className={styles.exerciseTitle}>{workout.exercise}</h2>
         <ExerciseForm
           key={exerciseIndex} // Add a key prop
           sets={workout.sets}

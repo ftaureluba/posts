@@ -1,5 +1,6 @@
 import React from 'react';
 
+import styles from '../styles/exerciseForm.module.css';
 function ExerciseForm({ sets, handleChange, addSet }) {
   return (
     <div>
@@ -11,6 +12,7 @@ function ExerciseForm({ sets, handleChange, addSet }) {
             placeholder="Reps"
             value={set.reps}
             onChange={(e) => handleChange(setIndex, e)}
+            className={styles.inputField}
           />
           <input
             type="number"
@@ -18,10 +20,11 @@ function ExerciseForm({ sets, handleChange, addSet }) {
             placeholder="Weight"
             value={set.weight}
             onChange={(e) => handleChange(setIndex, e)}
+            className={styles.inputField}
           />
         </div>
       ))}
-      <button type="button" onClick={addSet}>Add Set</button>
+      <button type="button" onClick={addSet} className={styles.addButton}>Add Set</button>
     </div>
   );
 }
