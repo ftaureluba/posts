@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  
 }
 
 .App-logo {
@@ -11,6 +12,17 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+.content {
+  background: rgba(255, 255, 255, 0.8); /* Semi-transparent background for content */
+  margin-top: 70px; /* Adjust according to your navbar height */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 0; /* Ensure content is below navbar */
 }
 
 .App-header {
@@ -35,4 +47,12 @@
   to {
     transform: rotate(360deg);
   }
+}
+body {
+  background-image: url('../public/gim_background.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 100vh;
+  margin: 0;
 }

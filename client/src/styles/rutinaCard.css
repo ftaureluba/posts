@@ -1,0 +1,40 @@
+
+.card {
+    background: rgba(255, 255, 255, 0.9); /* Softer background color */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced box shadow */
+    margin: 10px;
+    flex: 1;
+    max-width: 300px;
+    color: #333; /* Darker text color for better contrast */
+    text-align: center;
+  }
+  
+  .card h2 {
+    font-size: 1.5rem; /* Larger font size for headings */
+    margin-bottom: 10px;
+    color: #0056b3; /* Accent color for headings */
+  }
+  
+  .card p {
+    font-size: 1rem;
+    margin: 5px 0;
+  }
+  
+  .card ul {
+    list-style: none; /* Remove default list styling */
+    padding: 0;
+  }
+  
+  .card li {
+    margin: 5px 0;
+    font-size: 0.9rem; /* Slightly smaller font for list items */
+  }
+  
+  /* Add icon styles */
+  .card-icon {
+    font-size: 2rem; /* Icon size */
+    color: #0056b3; /* Icon color matching heading */
+    margin-bottom: 10px;
+  }
