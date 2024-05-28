@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 const app = express();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-
+const fs = require('fs')
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
@@ -18,6 +18,7 @@ app.use(cors());
 const User = config.User;
 const Rutina = config.Rutina;
 const Workout = config.Workout;
+const exerciseStatic = config.exerciseStatic;
 
 const mongoDBURL = process.env.MONGODB_URL;
 const secretKey = process.env.JWT_SECRET_KEY;
@@ -52,7 +53,7 @@ app.get('/posts', (req, res) => {
 mongoose.connect(mongoDBURL)
   .then(() => {
     console.log('App conectada');
-    
+
     async function findRutinas() {
       try {
         const rutinas = await Rutina.find({});
@@ -95,7 +96,11 @@ mongoose.connect(mongoDBURL)
       try {
         const newWorkout = new Workout({
           userId: req.user._id,
-          ...req.body
+          date: new Date(),
+          exercises: req.body.exercises.map(exercise => ({
+            exerciseId: exercise.exerciseId,
+            sets: exercise.sets
+          }))
         });
         const savedWorkout = await newWorkout.save();
     
@@ -103,7 +108,9 @@ mongoose.connect(mongoDBURL)
         /*const user = await User.findById(req.user._id);
         user.workouts.push(savedWorkout._id);
         await user.save();*/
-    
+        const user = await User.findById(req.user._id);
+        user.workouts.push(savedWorkout._id);
+        await user.save();
         res.status(201).json(savedWorkout);
       } catch (err) {
         res.status(500).send("Error saving workout");
@@ -124,6 +131,18 @@ mongoose.connect(mongoDBURL)
   .catch((error) => {
     console.error('Error connecting to the database:', error);
   });
+
+
+// app.js or routes file
+app.get('/api/exercises', async (req, res) => {
+  try {
+    const exercises = await exerciseStatic.find({});
+    res.json(exercises);
+  } catch (error) {
+    res.status(500).send('Error fetching exercises');
+  }
+});
+
 
 app.post('/login', async (req, res) => {
   try {
@@ -169,22 +188,46 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-
 /*
+
+    async function updateDocument() {
+      ejerciciosPath = './src/ejercicios.json'
+    
+      try {
+        const exercisesData = fs.readFileSync(ejerciciosPath, 'utf8');
+        const exercises = JSON.parse(exercisesData);
+    
+        const db = mongoose.connection;
+        const collection = db.collection('ejercicios'); // Assuming your collection name is 'exercises'
+    
+        await collection.deleteMany({});
+        const result = await collection.insertMany(exercises);
+        console.log("eh??")
+        /*
+    const doc = await Rutina.findOneAndUpdate(filter,
+       {ejercicios: [
+        "sentadillas",
+        "peso muerto",
+        "gemelos"
+      ]})
+    }catch (error){
+      console.log(error, "que te la saque el tordo")
+    }}
+
+updateDocument();*/
+/*
+
     async function updateDocument() {
     const filter = {Rutina: "Legs"}
     const doc = await Rutina.findOneAndUpdate(filter,
        {ejercicios: [
-        "exercise_pullups",
-  "exercise_lat_pulldowns",
-  "exercise_seated_rows",
-  "exercise_standing_rows",
-  "exercise_pullovers",
-  "exercise_bicep_curl",
-  "exercise_incline_bicep_curl",
-  "exercise_preacher_curls",      Metodo para updatear el mongo db con un filtro (me va a servir mas adelante seguro)
-  "exercise_cable_seated_rows",
-  "exercise_shrugs"
+        "squats",
+  "deadlift",
+  "quad_extensions",
+  "leg_curls",
+  "leg_press",
+  "calf_raise",// Metodo para updatear el mongo db con un filtro (me va a servir mas adelante seguro)
+
       ]})
     }
     updateDocument();*/

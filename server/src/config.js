@@ -37,9 +37,16 @@ const setSchema = new Schema({
 });
 
 const exerciseSchema = new Schema({
-  name: String,
+  exerciseId: {type: Schema.Types.ObjectId},
   sets: [setSchema]
 });
+
+const exerciseStaticSchema = new Schema ({
+  name : String,
+  category: String,
+  equipment: String
+}, {collection: 'ejercicios'})
+const exerciseStatic = mongoose.model('exerciseStatic', exerciseStaticSchema)
 
 const workoutSchema = new Schema({
   userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
@@ -61,5 +68,6 @@ module.exports = {
     mongoDBURL: process.env.mongoDBURL, //"mongodb+srv://admin:admin@fitness-app.wqetgeo.mongodb.net/Fitness-App?retryWrites=true&w=majority&appName=Fitness-App",
   Rutina: Rutina,
   Workout: Workout,
-  User: User
+  User: User,
+  exerciseStatic: exerciseStatic
 };

@@ -20,7 +20,8 @@ function RutinaDetail(ejercicios) {
     if (exercisesArray && exercisesArray.length > 0) {
       setWorkoutData(
         exercisesArray.map((exercise) => ({
-          exercise: exercise,
+          exerciseId: exercise._id,
+          name: exercise.name,
           sets: [{ reps: '', weight: '' }]
         }))
       );
@@ -71,7 +72,8 @@ function RutinaDetail(ejercicios) {
       const dataToSend = {
         date: new Date(),
         exercises: workoutData.map((workout) => ({
-            name: workout.exercise,
+            exerciseId: workout.exerciseId,
+            //name: workout.exercise,
             sets: workout.sets.map((set) => ({
                 reps: Number(set.reps),
                 weight: Number(set.weight)

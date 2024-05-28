@@ -6,6 +6,7 @@ function ExerciseForm({ sets, handleChange, addSet }) {
     <div>
       {sets.map((set, setIndex) => (
         <div key={setIndex}>
+          
           <input
             type="number"
             name="reps"
