@@ -5,28 +5,28 @@ import ExerciseForm from './ExerciseForm';
 import { apiService } from '../services/PostsService';
 import styles from '../styles/rutinaDetail.module.css'
 
-function RutinaDetail(ejercicios) {
-  const exercisesArray = ejercicios.props
+function RutinaDetail({ejercicios = []}) {
+  //const exercisesArray = ejercicios.props
 
   
   const [workoutData, setWorkoutData] = useState(
-    exercisesArray.map((exercise) => ({
+    ejercicios.map((exercise) => ({
       exercise: exercise,
       sets: [{ reps: '', weight: '' }]
     }))
   );
   // Function to handle changes to any form input
   useEffect(() => {
-    if (exercisesArray && exercisesArray.length > 0) {
+    if (ejercicios.length > 0) {
       setWorkoutData(
-        exercisesArray.map((exercise) => ({
+        ejercicios.map((exercise) => ({
           exerciseId: exercise._id,
           name: exercise.name,
           sets: [{ reps: '', weight: '' }]
         }))
       );
     }
-  }, [exercisesArray]);
+  }, [ejercicios]);
   const handleChange = (exerciseIndex, setIndex, e) => {
     setWorkoutData((prevWorkoutData) => {
       const newWorkoutData = [...prevWorkoutData];
@@ -91,7 +91,7 @@ function RutinaDetail(ejercicios) {
     <div>
       {workoutData.map((workout, exerciseIndex) => (
       <div key={exerciseIndex} className={styles.exercise}>
-        <h2 className={styles.exerciseTitle}>{workout.exercise}</h2>
+        <h2 className={styles.exerciseTitle}>{workout.name}</h2>
         <ExerciseForm
           key={exerciseIndex} // Add a key prop
           sets={workout.sets}
