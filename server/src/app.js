@@ -56,10 +56,17 @@ mongoose.connect(mongoDBURL)
 
     async function findRutinas() {
       try {
-        const rutinas = await Rutina.find({});
-        
-        return rutinas
-        
+        const rutinas = await Rutina.aggregate([
+          {
+            $lookup: {
+              from: 'exercisestatics', // The name of the referenced collection
+              localField: 'ejercicios',
+              foreignField: '_id',
+              as: 'ejercicios'
+            }
+          }
+        ]);
+        return rutinas;
       } catch (error) {
         console.error('Error finding rutinas:', error);
       }
@@ -68,6 +75,7 @@ mongoose.connect(mongoDBURL)
       try {
         const rutinas = await findRutinas();
         res.json(rutinas);
+        console.log(rutinas)
       } catch (err) {
         res.status(500).send('Error finding rutinas');
       }

@@ -17,7 +17,8 @@ function Home ()  {
     async function fetchRutinas ()  {
       try {
         const response = await apiService.fetchData();
-        setRutinas(response.data);
+        const data = Array.isArray(response.data) ? response.data : [];
+        setRutinas(data);
       } catch (error) {
         console.error('Error fetching rutinas:', error);
       }
@@ -28,9 +29,9 @@ function Home ()  {
   console.log(rutinas)
   return (
     <div className='home-container'>
-      {rutinas.map(rutina => (
-        <div key={rutina._id} class='rutina-item'>
-        <Rutina key={rutina._id} rutina={rutina} />
+      {Array.isArray(rutinas) && rutinas.map(rutina => (
+        <div key={rutina._id} className='rutina-item'>
+          <Rutina key={rutina._id} rutina={rutina} />
         </div>
       ))}
     </div>

@@ -31,12 +31,11 @@ const Rutina = ({rutina}) => {
         {rutina.Rutina}
         <CardContent>
             <p>{rutina.Descripcion}</p>
-            {/*
+            
             {ejercicios.map((ejercicio, index) => (
             <Typography key={index} variant="body2" color="text.primary">
-              - {ejercicio}
-            </Typography>*/}
-          
+              - {ejercicio.name}
+            </Typography>))}
         </CardContent>
         </CardActionArea>    
     </Card>
