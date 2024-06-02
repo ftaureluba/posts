@@ -5,7 +5,7 @@ import { CardActionArea, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import '../styles/rutinaCard.css'
 const Rutina = ({rutina}) => {
-
+  console.log(rutina)
   const rutinaID = rutina._id.toString();
   const ejercicios = rutina.ejercicios
   
@@ -31,12 +31,12 @@ const Rutina = ({rutina}) => {
         {rutina.Rutina}
         <CardContent>
             <p>{rutina.Descripcion}</p>
-            
+            {/*
             {ejercicios.map((ejercicio, index) => (
             <Typography key={index} variant="body2" color="text.primary">
               - {ejercicio}
-            </Typography>
-          ))}
+            </Typography>*/}
+          
         </CardContent>
         </CardActionArea>    
     </Card>

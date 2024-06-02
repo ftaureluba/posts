@@ -11,6 +11,8 @@ function RutinaDetailContainer() {
         try {
             const response = await apiService.fetchData(`/${rutina_id}`);
             setEjercicios(response.data.ejercicios)
+            console.log(response)
+            console.log()
         }catch (err) {
             console.log(err)
         }
@@ -21,7 +23,8 @@ function RutinaDetailContainer() {
     )
     return (
         <div className={styles.container}>
-        <RutinaDetail props = {ejercicios}/>
+            {console.log(ejercicios)}
+        <RutinaDetail ejercicios = {ejercicios}/>
         </div>
   )
 }

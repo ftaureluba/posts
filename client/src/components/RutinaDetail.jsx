@@ -8,7 +8,7 @@ import styles from '../styles/rutinaDetail.module.css'
 function RutinaDetail({ejercicios = []}) {
   //const exercisesArray = ejercicios.props
 
-  
+  console.log(ejercicios)
   const [workoutData, setWorkoutData] = useState(
     ejercicios.map((exercise) => ({
       exercise: exercise,

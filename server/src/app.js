@@ -188,8 +188,8 @@ app.listen(port, () => {
   console.log(`Server running on port ${port}`);
 });
 
-/*
 
+/*
     async function updateDocument() {
       ejerciciosPath = './src/ejercicios.json'
     
@@ -198,7 +198,7 @@ app.listen(port, () => {
         const exercises = JSON.parse(exercisesData);
     
         const db = mongoose.connection;
-        const collection = db.collection('ejercicios'); // Assuming your collection name is 'exercises'
+        const collection = db.collection('exercisestatics'); // Assuming your collection name is 'exercises'
     
         await collection.deleteMany({});
         const result = await collection.insertMany(exercises);
@@ -216,11 +216,20 @@ app.listen(port, () => {
 
 updateDocument();*/
 /*
-
+const exerciseIds = [
+  new mongoose.Types.ObjectId("665c8e1f8aef363c1cde06b0"), // ObjectId for "Squats"
+  new mongoose.Types.ObjectId('665c8e1f8aef363c1cde06b2'), // ObjectId for "Deadlift"
+  new mongoose.Types.ObjectId('665c8e1f8aef363c1cde06b3'), // ObjectId for "Quad Extensions"
+  new mongoose.Types.ObjectId('665c8e1f8aef363c1cde06b5'), // ObjectId for "Leg Curls"
+  new mongoose.Types.ObjectId('665c8e1f8aef363c1cde06b6'), // ObjectId for "Leg Press"
+  new mongoose.Types.ObjectId('665c8e1f8aef363c1cde06b7')  // ObjectId for "Calf Raise"
+];
     async function updateDocument() {
-    const filter = {Rutina: "Legs"}
+    const filter = {Rutina: "Pull"}
     const doc = await Rutina.findOneAndUpdate(filter,
-       {ejercicios: [
+       {ejercicios: exerciseIds
+
+        /*
         "squats",
   "deadlift",
   "quad_extensions",
@@ -228,6 +237,54 @@ updateDocument();*/
   "leg_press",
   "calf_raise",// Metodo para updatear el mongo db con un filtro (me va a servir mas adelante seguro)
 
-      ]})
+      }, {new: true});
+      if (doc){console.log('documento updateado: ', doc)} else {console.error('no document found for filter')}
     }
     updateDocument();*/
+/*
+    const updateRutina = async () => {
+      const rutinas = await Rutina.find();
+    
+      for (const rutina of rutinas) {
+        const updatedEjercicios = [];
+    
+        for (const ejercicioName of rutina.ejercicios) {
+          const exerciseStatic = await exerciseStatic.findOne({ name: ejercicioName });
+    
+          if (exerciseStatic) {
+            updatedEjercicios.push(exerciseStatic._id);
+          } else {
+            console.error(`ExerciseStatic not found for name: ${ejercicioName}`);
+          }
+        }
+    
+        rutina.ejercicios = updatedEjercicios;
+        await rutina.save();
+      }
+    
+      console.log("Rutina documents updated successfully!");
+      mongoose.connection.close();
+    };*/
+
+
+    /*
+    async function updateExerciseIds() {
+      const exercises = await exerciseStatic.find();
+      //const db = mongoose.connection;
+      //const collection = db.collection('exercisestatics');
+      for (let exercise of exercises) {
+        const newId = new mongoose.Types.ObjectId();
+        const newEx = new exerciseStatic({
+          _id: newId,
+          name: exercise.name,
+          equipment: exercise.equipment,
+          category: exercise.category
+        })
+        await newEx.save()
+        await exerciseStatic.deleteOne({_id: exercise._id})
+        console.log(`Updated exercise ${exercise.name} to new ID ${newId}, ${exercise._id}`);
+      }
+      
+      console.log('All exercises updated.');}
+
+updateExerciseIds()*/

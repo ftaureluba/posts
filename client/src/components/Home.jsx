@@ -25,7 +25,7 @@ function Home ()  {
 
     fetchRutinas();
   }, []);
-
+  console.log(rutinas)
   return (
     <div className='home-container'>
       {rutinas.map(rutina => (

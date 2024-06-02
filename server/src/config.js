@@ -37,7 +37,7 @@ const setSchema = new Schema({
 });
 
 const exerciseSchema = new Schema({
-  exerciseId: {type: Schema.Types.ObjectId},
+  exerciseId: {type: Schema.Types.ObjectId, ref: 'ExerciseStatic'},
   sets: [setSchema]
 });
 
@@ -59,7 +59,7 @@ const Workout = mongoose.model('Workout', workoutSchema);
 const rutinaSchema = new Schema({
   Rutina: String,
   Descripcion: String,
-  ejercicios: [String]
+  ejercicios: [{type : Schema.Types.ObjectId, ref: 'ExerciseStatic'}]
 });
 
 const Rutina = mongoose.model('Rutina', rutinaSchema);
