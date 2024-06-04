@@ -45,7 +45,7 @@ const exerciseStaticSchema = new Schema ({
   name : String,
   category: String,
   equipment: String
-}, {collection: 'ejercicios'})
+}, {collection: 'exercisestatics'})
 const exerciseStatic = mongoose.model('exerciseStatic', exerciseStaticSchema)
 
 const workoutSchema = new Schema({

@@ -82,11 +82,13 @@ mongoose.connect(mongoDBURL)
     });
     app.get('/:rutina_id', async (req, res) => {
       try{
-        const rutina = await Rutina.findOne({_id: req.params.rutina_id})
-        if (!rutina) {
+        const rutinas = await Rutina.findById(req.params.rutina_id).populate('ejercicios').exec();
+
+        console.log(rutinas)
+        if (!rutinas) {
           return res.status(404).send('Rutina not found');
         }
-        res.json(rutina)
+        res.json(rutinas)
       }catch(err) {res.status(500).send('error buscando rutinas')}
     })/*
     app.post('/api/workouts', async (req, res) => {
