@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { apiService } from '../services/PostsService';
-import '../styles/WorkoutHistory.css'; // Import styles for better appearance
+import '../styles/WorkoutHistory.css';
 
 const WorkoutHistory = () => {
   const [workouts, setWorkouts] = useState([]);
@@ -18,7 +18,7 @@ const WorkoutHistory = () => {
 
     fetchWorkouts();
   }, []);
-
+  console.log(workouts)
   return (
     <div className="workout-history">
       <h2>Your Workout History</h2>
@@ -31,7 +31,7 @@ const WorkoutHistory = () => {
               <ul>
                 {workout.exercises.map((exercise, index) => (
                   <li key={index}>
-                    <strong>{exercise.name}</strong>
+                    <strong>{exercise.exerciseId.name}</strong>
                     <ul>
                       {exercise.sets.map((set, setIndex) => (
                         <li key={setIndex}>

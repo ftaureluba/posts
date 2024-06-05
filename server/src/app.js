@@ -129,24 +129,16 @@ mongoose.connect(mongoDBURL)
     });
     app.get('/api/workouts', verifyToken, async (req, res) => {
       try {
-        //const workouts = await Workout.find({userId: req.user._id} ).populate('ejercicios').exec();
-        const workouts = await Workout.aggregate([
-          { $match: {userId: req.user._id}},{
-            $lookup: {
-              from: 'exercisestatics', // The name of the referenced collection
-              localField: 'exercises',
-              foreignField: '_id',
-              as: 'exercises'
-            }
-          }
-        ]);
-        console.log(workouts)
+        const workouts = await Workout.find({ userId: req.user._id }).populate({
+          path: 'exercises.exerciseId',
+          model: 'exerciseStatic'
+        }).exec();
         res.json(workouts);
       } catch (err) {
         res.status(500).send('Error fetching workouts');
       }
-    }
-  );
+    });
+    
     findRutinas(); 
   })
   

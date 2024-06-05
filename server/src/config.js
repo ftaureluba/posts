@@ -25,7 +25,7 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now
   },
-  workouts: [{ type: Schema.Types.ObjectId, ref: 'Workout' }]
+  workouts: [{ type: Schema.Types.ObjectId, ref: 'workouts' }]
   // Other user-related fields
 });
 
@@ -40,7 +40,7 @@ const exerciseSchema = new Schema({
   exerciseId: {type: Schema.Types.ObjectId, ref: 'exerciseStatic'},
   sets: [setSchema]
 });
-
+const exercise = mongoose.model('exercise', exerciseSchema)
 const exerciseStaticSchema = new Schema ({
   name : String,
   category: String,
@@ -49,10 +49,15 @@ const exerciseStaticSchema = new Schema ({
 const exerciseStatic = mongoose.model('exerciseStatic', exerciseStaticSchema)
 
 const workoutSchema = new Schema({
-  userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+  userId: { type: Schema.Types.ObjectId, ref: 'users', required: true },
   date: { type: Date, default: Date.now },
-  exercises: [exerciseSchema]
-}, {collection: "workouts"});
+  exercises: [
+    {
+      exerciseId: { type: Schema.Types.ObjectId, ref: 'exerciseStatic' },
+      sets: [setSchema]
+    }
+  ]
+}, { collection: "workouts" });
 
 const Workout = mongoose.model('Workout', workoutSchema);
 
