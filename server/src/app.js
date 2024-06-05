@@ -29,8 +29,8 @@ console.log(mongoDBURL)
 
 
 const verifyToken = (req, res, next) => {
-  console.log("sacala chupaverga")
-  console.log(req.headers)
+
+  //console.log(req.headers)
   const token = req.header('auth-token');
   if (!token) return res.status(401).send('Access denied, chupavergas');
 
@@ -38,6 +38,7 @@ const verifyToken = (req, res, next) => {
     const verified = jwt.verify(token, secretKey);
     req.user = verified;
     next();
+    console.log('chupapijs???')
   } catch (error) {
     res.status(400).send('Invalid token');
   }
@@ -75,7 +76,7 @@ mongoose.connect(mongoDBURL)
       try {
         const rutinas = await findRutinas();
         res.json(rutinas);
-        console.log(rutinas)
+        //console.log(rutinas)
       } catch (err) {
         res.status(500).send('Error finding rutinas');
       }
@@ -84,7 +85,7 @@ mongoose.connect(mongoDBURL)
       try{
         const rutinas = await Rutina.findById(req.params.rutina_id).populate('ejercicios').exec();
 
-        console.log(rutinas)
+        //console.log(rutinas)
         if (!rutinas) {
           return res.status(404).send('Rutina not found');
         }
@@ -128,7 +129,18 @@ mongoose.connect(mongoDBURL)
     });
     app.get('/api/workouts', verifyToken, async (req, res) => {
       try {
-        const workouts = await Workout.find({ userId: req.user._id }).sort({ date: -1 });
+        //const workouts = await Workout.find({userId: req.user._id} ).populate('ejercicios').exec();
+        const workouts = await Workout.aggregate([
+          { $match: {userId: req.user._id}},{
+            $lookup: {
+              from: 'exercisestatics', // The name of the referenced collection
+              localField: 'exercises',
+              foreignField: '_id',
+              as: 'exercises'
+            }
+          }
+        ]);
+        console.log(workouts)
         res.json(workouts);
       } catch (err) {
         res.status(500).send('Error fetching workouts');
