@@ -14,7 +14,6 @@ function Login() {
 
     const handleSubmit = async (event) => {
       event.preventDefault();
-      console.log(`Email: ${email}, Password: ${password}`);
 
       try {
           const response = await apiService.PostData('/login', { email, password });

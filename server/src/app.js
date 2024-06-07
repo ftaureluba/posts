@@ -9,12 +9,17 @@ const app = express();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fs = require('fs')
+const nodemailer = require('nodemailer');
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 app.use(cors());
 
+const crypto = require('crypto');
 
+function generateVerificationToken() {
+  return crypto.randomBytes(20).toString('hex');
+}
 const User = config.User;
 const Rutina = config.Rutina;
 const Workout = config.Workout;
@@ -179,20 +184,66 @@ app.post('/login', async (req, res) => {
   }
 });
 
+async function sendVerificationEmail(user) {
+  const transporter = nodemailer.createTransport({
+    service: 'Gmail',
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.PASSWORD
+    }
+  });
+
+  const mailOptions = {
+    from: process.env.EMAIL,
+    to: user.email,
+    subject: 'Account Verification',
+    text: `Please verify your account by clicking the link: 
+    http://localhost:3000/verify-email?token=${user.verificationToken}`
+  };
+
+  await transporter.sendMail(mailOptions);
+}
+
 app.post('/signup', async (req, res) => {
   try {
+    const verificationToken = generateVerificationToken();
+    const tokenExpiration = Date.now() + 3600000;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const user = new User({
       username: req.body.username,
       password: hashedPassword,
-      email: req.body.email
+      email: req.body.email,
+      verificationToken: verificationToken,
+      tokenExpiration: tokenExpiration
     });
     await user.save();
-    res.status(201).send('User created successfully');
+    await sendVerificationEmail();
+    res.status(201).send('User created successfully, please check email to verificate account.');
   } catch (error) {
     res.status(500).send('Error creating user');
   }
 });
+
+app.get('/verify-email', async (req, res) => {
+  try {
+    const { token } = req.query;
+    const user = await User.findOne({ verificationToken: token, tokenExpiration: { $gt: Date.now() } });
+
+    if (!user) {
+      return res.status(400).send('Invalid or expired token');
+    }
+
+    user.isVerified = true;
+    user.verificationToken = undefined;
+    user.tokenExpiration = undefined;
+    await user.save();
+
+    res.send('Account verified successfully');
+  } catch (error) {
+    res.status(500).send('Error verifying account');
+  }
+});
+
 app.get('/protected-route', verifyToken, (req, res) => {
   res.send('You are authenticated');
 });
