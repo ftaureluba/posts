@@ -27,28 +27,33 @@ const exerciseStatic = config.exerciseStatic;
 
 const mongoDBURL = process.env.MONGODB_URL;
 const secretKey = process.env.JWT_SECRET_KEY;
-
+const email = process.env.EMAIL;
+const password = process.env.PASSWORD;
 console.log(mongoDBURL)
 //dotenv.config()
 
 
 
-const verifyToken = (req, res, next) => {
 
-  //console.log(req.headers)
+const verifyToken = async (req, res, next) => {
   const token = req.header('auth-token');
-  if (!token) return res.status(401).send('Access denied, chupavergas');
+  if (!token) return res.status(401).send('Access denied');
 
   try {
     const verified = jwt.verify(token, secretKey);
     req.user = verified;
+
+    // Check if the user is verified
+    const user = await User.findById(req.user._id);
+    if (!user.isVerified) {
+      return res.status(401).send('Account not verified');
+    }
+
     next();
-    console.log('chupapijs???')
   } catch (error) {
     res.status(400).send('Invalid token');
   }
 };
-
 app.get('/posts', (req, res) => {
   res.send([{
     title: "Hello World!",
@@ -169,7 +174,9 @@ app.post('/login', async (req, res) => {
     if (!user) {
       return res.status(400).send('User not found');
     }
-
+    if (!user.isVerified) {
+      return res.status(401).send('Account not verified');
+    }
     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
     if (!isPasswordValid) {
       return res.status(400).send('Invalid email or password');
@@ -185,30 +192,39 @@ app.post('/login', async (req, res) => {
 });
 
 async function sendVerificationEmail(user) {
+console.log('entro a verifemail')
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
-      user: process.env.EMAIL,
-      pass: process.env.PASSWORD
+      user: email,
+      pass: password
     }
   });
-
+    console.log('creo bien el transport')
   const mailOptions = {
-    from: process.env.EMAIL,
+    from: email,
     to: user.email,
     subject: 'Account Verification',
     text: `Please verify your account by clicking the link: 
     http://localhost:3000/verify-email?token=${user.verificationToken}`
   };
-
-  await transporter.sendMail(mailOptions);
+    console.log('creo bien mailoptions')
+try {
+    let info = await transporter.sendMail(mailOptions);
+    console.log('Email sent: ' + info.response);
+} catch (error) {
+    console.error('Error sending email: ', error);
+}  console.log('mando el mail')
 }
 
 app.post('/signup', async (req, res) => {
   try {
     const verificationToken = generateVerificationToken();
+    console.log('token creado')
     const tokenExpiration = Date.now() + 3600000;
+    console.log('token actualizado')
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+    console.log('pass hasheada')
     const user = new User({
       username: req.body.username,
       password: hashedPassword,
@@ -216,8 +232,11 @@ app.post('/signup', async (req, res) => {
       verificationToken: verificationToken,
       tokenExpiration: tokenExpiration
     });
+    console.log('user creado')
     await user.save();
-    await sendVerificationEmail();
+    console.log('user guardado')
+    await sendVerificationEmail(user);
+    console.log('mail enviado')
     res.status(201).send('User created successfully, please check email to verificate account.');
   } catch (error) {
     res.status(500).send('Error creating user');

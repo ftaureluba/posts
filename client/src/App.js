@@ -8,6 +8,7 @@ import Login from './components/Login.jsx';
 import Signup from './components/Signup.jsx';
 import { AuthProvider } from './components/AuthContext.jsx';
 import Historial from './components/Historial.jsx';
+import VerifyEmail from './components/VerifyEmail.jsx'
 import './App.css'
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path='/login' element={<Login/>} />
             <Route path='/signup' element={<Signup />} />
             <Route path='/historial' element = {<Historial />} />
+            <Route path='/verify-email' element = {<VerifyEmail />} />
           </Routes>
           </div>
       </div>
