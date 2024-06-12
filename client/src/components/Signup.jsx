@@ -22,7 +22,7 @@ function Signup() {
         };
       
         // Send the user data to the server
-        const response = await apiService.PostData('/signup', userData);
+        const response = await apiService.PostData('/api/signup', userData);
       
         console.log(response.data);
         // Optionally, clear the form after submission

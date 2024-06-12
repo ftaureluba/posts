@@ -6,7 +6,7 @@ function Posts() {
   useEffect(() => {
     async function fetchPosts() {
       try {
-        const response = await apiService.fetchData('/posts');
+        const response = await apiService.fetchData('/api/posts');
         setPosts(response.data);
       } catch (error) {
         console.error('Error fetching posts:', error);

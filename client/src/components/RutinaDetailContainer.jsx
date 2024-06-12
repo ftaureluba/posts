@@ -9,7 +9,7 @@ function RutinaDetailContainer() {
     const {rutina_id} = useParams();
     async function fetchEjercicios() {
         try {
-            const response = await apiService.fetchData(`/${rutina_id}`);
+            const response = await apiService.fetchData(`/api/${rutina_id}`);
             setEjercicios(response.data.ejercicios)
             console.log(response)
             console.log()

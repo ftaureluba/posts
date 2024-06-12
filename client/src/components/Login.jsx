@@ -16,7 +16,7 @@ function Login() {
       event.preventDefault();
 
       try {
-          const response = await apiService.PostData('/login', { email, password });
+          const response = await apiService.PostData('/api/login', { email, password });
           const { token } = response.data;
 
           // Store the token in local storage or a cookie, depending on your preference

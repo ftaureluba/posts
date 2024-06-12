@@ -80,7 +80,7 @@ mongoose.connect(mongoDBURL)
         console.error('Error finding rutinas:', error);
       }
     }
-    app.get('/api', async (req, res) => {
+    app.get('/api/', async (req, res) => {
       try {
         const rutinas = await findRutinas();
         res.json(rutinas);
@@ -89,7 +89,7 @@ mongoose.connect(mongoDBURL)
         res.status(500).send('Error finding rutinas');
       }
     });
-    app.get('/:rutina_id', async (req, res) => {
+    app.get('/api/:rutina_id', async (req, res) => {
       try{
         const rutinas = await Rutina.findById(req.params.rutina_id).populate('ejercicios').exec();
 
@@ -166,7 +166,7 @@ app.get('/api/exercises', async (req, res) => {
 });
 
 
-app.post('/login', async (req, res) => {
+app.post('/api/login', async (req, res) => {
   try {
     const user = await User.findOne({ email: req.body.email });
     if (!user) {
@@ -209,7 +209,7 @@ try {
     console.error('Error sending email: ', error);
 }};
 
-app.post('/signup', async (req, res) => {
+app.post('/api/signup', async (req, res) => {
   try {
     const verificationToken = generateVerificationToken();
     const tokenExpiration = Date.now() + 3600000;
@@ -229,7 +229,7 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-app.get('/verify-email', async (req, res) => {
+app.get('/api/verify-email', async (req, res) => {
   try {
     const { token } = req.query;
     const user = await User.findOne({ verificationToken: token, tokenExpiration: { $gt: Date.now() } });
@@ -249,7 +249,7 @@ app.get('/verify-email', async (req, res) => {
   }
 });
 
-app.get('/protected-route', verifyToken, (req, res) => {
+app.get('/api/protected-route', verifyToken, (req, res) => {
   res.send('You are authenticated');
 });
 

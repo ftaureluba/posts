@@ -12,7 +12,7 @@ const VerifyEmail = () => {
       try {
         const params = new URLSearchParams(location.search);
         const token = params.get('token');
-        const response = await apiService.fetchData(`/verify-email?token=${token}`);
+        const response = await apiService.fetchData(`/api/verify-email?token=${token}`);
         setMessage(response.data);
       } catch (error) {
         setMessage('Error verifying email.');
