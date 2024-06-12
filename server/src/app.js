@@ -207,7 +207,7 @@ try {
     let info = await transporter.sendMail(mailOptions);
 } catch (error) {
     console.error('Error sending email: ', error);
-}
+}};
 
 app.post('/signup', async (req, res) => {
   try {
@@ -262,14 +262,14 @@ app.listen(port, () => {
 /*
     async function updateDocument() {
       ejerciciosPath = './src/ejercicios.json'
-    
+
       try {
         const exercisesData = fs.readFileSync(ejerciciosPath, 'utf8');
         const exercises = JSON.parse(exercisesData);
-    
+
         const db = mongoose.connection;
         const collection = db.collection('exercisestatics'); // Assuming your collection name is 'exercises'
-    
+
         await collection.deleteMany({});
         const result = await collection.insertMany(exercises);
         console.log("eh??")
@@ -314,24 +314,24 @@ const exerciseIds = [
 /*
     const updateRutina = async () => {
       const rutinas = await Rutina.find();
-    
+
       for (const rutina of rutinas) {
         const updatedEjercicios = [];
-    
+
         for (const ejercicioName of rutina.ejercicios) {
           const exerciseStatic = await exerciseStatic.findOne({ name: ejercicioName });
-    
+
           if (exerciseStatic) {
             updatedEjercicios.push(exerciseStatic._id);
           } else {
             console.error(`ExerciseStatic not found for name: ${ejercicioName}`);
           }
         }
-    
+
         rutina.ejercicios = updatedEjercicios;
         await rutina.save();
       }
-    
+
       console.log("Rutina documents updated successfully!");
       mongoose.connection.close();
     };*/
@@ -354,7 +354,7 @@ const exerciseIds = [
         await exerciseStatic.deleteOne({_id: exercise._id})
         console.log(`Updated exercise ${exercise.name} to new ID ${newId}, ${exercise._id}`);
       }
-      
+
       console.log('All exercises updated.');}
 
 updateExerciseIds()*/
