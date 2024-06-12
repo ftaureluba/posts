@@ -80,7 +80,7 @@ mongoose.connect(mongoDBURL)
         console.error('Error finding rutinas:', error);
       }
     }
-    app.get('/', async (req, res) => {
+    app.get('/api/', async (req, res) => {
       try {
         const rutinas = await findRutinas();
         res.json(rutinas);
