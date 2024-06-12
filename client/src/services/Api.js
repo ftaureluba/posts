@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const Api = () => {
     return axios.create({
-        baseURL: 'http://localhost:8082'
+        baseURL: 'https://posts-ifgsp6kg5-felitaurels-projects.vercel.app'
     });
 };
 
