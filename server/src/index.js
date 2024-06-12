@@ -54,10 +54,12 @@ const verifyToken = async (req, res, next) => {
   }
 };
 app.get('/posts', (req, res) => {
-  res.send([{
-    title: "Hello World!",
-    description: "Como annnnnnnndas"
-  }]);
+    const coso = `<html>
+        <head><title>cosocosocoso
+        </title></head>
+        <body><h1>cocsoocsaihdoa</h1></body>
+        </html>`
+  res.send(coso);
 });
 
 mongoose.connect(mongoDBURL)
