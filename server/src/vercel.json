@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "/server/src/app.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "/client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "zeroConfig": true,
+        "framework": "create-react-app"
+      }
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/src/(.*)",
+      "destination": "/server/src/app.js"
+    },
+    {
+      "source": "client/(.*)",
+      "destination": "/src/"
+    }
+  ]
+}

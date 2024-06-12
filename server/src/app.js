@@ -29,7 +29,6 @@ const mongoDBURL = process.env.MONGODB_URL;
 const secretKey = process.env.JWT_SECRET_KEY;
 const email = process.env.EMAIL;
 const password = process.env.PASSWORD;
-console.log(mongoDBURL)
 //dotenv.config()
 
 
@@ -63,7 +62,6 @@ app.get('/posts', (req, res) => {
 
 mongoose.connect(mongoDBURL)
   .then(() => {
-    console.log('App conectada');
 
     async function findRutinas() {
       try {
@@ -185,14 +183,12 @@ app.post('/login', async (req, res) => {
     // Generate a JWT token
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY);
     res.header('auth-token', token).send({token});
-    console.log(token)
   } catch (error) {
     res.status(500).send('Error logging in');
   }
 });
 
 async function sendVerificationEmail(user) {
-console.log('entro a verifemail')
   const transporter = nodemailer.createTransport({
     service: 'Gmail',
     auth: {
@@ -200,7 +196,6 @@ console.log('entro a verifemail')
       pass: password
     }
   });
-    console.log('creo bien el transport')
   const mailOptions = {
     from: email,
     to: user.email,
@@ -208,23 +203,17 @@ console.log('entro a verifemail')
     text: `Please verify your account by clicking the link: 
     http://localhost:3000/verify-email?token=${user.verificationToken}`
   };
-    console.log('creo bien mailoptions')
 try {
     let info = await transporter.sendMail(mailOptions);
-    console.log('Email sent: ' + info.response);
 } catch (error) {
     console.error('Error sending email: ', error);
-}  console.log('mando el mail')
 }
 
 app.post('/signup', async (req, res) => {
   try {
     const verificationToken = generateVerificationToken();
-    console.log('token creado')
     const tokenExpiration = Date.now() + 3600000;
-    console.log('token actualizado')
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    console.log('pass hasheada')
     const user = new User({
       username: req.body.username,
       password: hashedPassword,
@@ -232,11 +221,8 @@ app.post('/signup', async (req, res) => {
       verificationToken: verificationToken,
       tokenExpiration: tokenExpiration
     });
-    console.log('user creado')
     await user.save();
-    console.log('user guardado')
     await sendVerificationEmail(user);
-    console.log('mail enviado')
     res.status(201).send('User created successfully, please check email to verificate account.');
   } catch (error) {
     res.status(500).send('Error creating user');
