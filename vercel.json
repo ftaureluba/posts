@@ -20,7 +20,7 @@
       "destination": "/server/src/app.js"
     },
     {
-      "source": "client/(.*)",
+      "source": "/(.*)",
       "destination": "/client/"
     }
   ]
