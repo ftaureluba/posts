@@ -53,7 +53,7 @@ const verifyToken = async (req, res, next) => {
     res.status(400).send('Invalid token');
   }
 };
-app.get("/posts", (req, res) => {
+app.get("/api/posts", (req, res) => {
     const coso = `<html>
         <head><title>cosocosocoso
         </title></head>
