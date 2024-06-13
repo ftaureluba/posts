@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { useState } from 'react';
-import axios from 'axios';
 import ExerciseForm from './ExerciseForm';
 import { apiService } from '../services/PostsService';
 import styles from '../styles/rutinaDetail.module.css'
@@ -49,26 +48,9 @@ function RutinaDetail({ejercicios = []}) {
   const handleSubmitAll = async (e) => {
     e.preventDefault();
     const token = localStorage.getItem('token')
-    try {/*
-      // Send the entire workout data to the server
 
-      const dataToSend = {
-        date: new Date(), // You can use the current date or let MongoDB set it by default
-        exercises: workoutData.map((workout) => ({
-          name: workout.exercise, // Assuming workout.exercise is a string
-          sets: workout.sets.map((set) => ({
-            reps: Number(set.reps), // Convert reps and weight to numbers
-            weight: Number(set.weight)
-          }))
-        }))
-      };
-      // Send the entire workout data to the server
-      console.log(dataToSend)
-      console.log(token)
-      const response = await apiService.PostData('/api/workouts', dataToSend);
-  
-      console.log(response.data);
-      // Optionally, clear the form after submission*/
+    try {
+      if (token){ //CHEQUEAR QUE LA LOGICA DEL TOKEN REALMENTE PUEDA FUNCIONAR BIEN, ES PEDIRLE SI EXISTE EL TOKEN PARA VER EL LOGIN CREO
       const dataToSend = {
         date: new Date(),
         exercises: workoutData.map((workout) => ({
@@ -81,7 +63,7 @@ function RutinaDetail({ejercicios = []}) {
         }))
     };
     const response = await apiService.PostData('/api/workouts', dataToSend);
-    console.log(response.data);
+    console.log(response.data);}
     } catch (error) {
       console.error('Error submitting workouts:', error);
     }
@@ -111,7 +93,7 @@ export default RutinaDetail
 
 
 
-{/*
+/*
 <h2>{ejercicio}</h2>
       <form>
       <input
@@ -136,9 +118,9 @@ export default RutinaDetail
         onChange={(e) => handleChange(index, e)}
       />
     </form>
-*/}
+*/
 
-{/*import React, { useState } from 'react';
+/*import React, { useState } from 'react';
 import axios from 'axios';
 const FormEjercicios = ({ exercise, onChange, formData }) => {
   return (
@@ -225,4 +207,4 @@ function RutinaDetail({ ejercicios }) {
   );
 }
 
-export default RutinaDetail;*/}
+export default RutinaDetail;*/

@@ -6,7 +6,7 @@ import styles from '../styles/rutinaDetailContainer.module.css'
 
 function RutinaDetailContainer() {
     const [ejercicios, setEjercicios] = useState([])
-    const {rutina_id} = useParams();
+    const {rutina_id} = useParams();/*
     async function fetchEjercicios() {
         try {
             const response = await apiService.fetchData(`/api/${rutina_id}`);
@@ -20,7 +20,20 @@ function RutinaDetailContainer() {
     useEffect(() => {
          fetchEjercicios();
     }, [rutina_id]
-    )
+    )*/
+    const fetchEjercicios = useCallback(async () => { //A CHEQUEAR, ESTO ME LO DIO GPT
+        try {
+          const response = await apiService.fetchData(`/api/${rutina_id}`);
+          setEjercicios(response.data.ejercicios);
+          console.log(response);
+        } catch (err) {
+          console.log(err);
+        }
+      }, [rutina_id]);
+
+      useEffect(() => {
+        fetchEjercicios();
+      }, [fetchEjercicios]);
     return (
         <div className={styles.container}>
             {console.log(ejercicios)}
