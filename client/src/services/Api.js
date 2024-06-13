@@ -1,9 +1,9 @@
 // api.js
 import axios from 'axios';
-
+apiURL = process.env.REACT_APP_API_URL;
 const Api = () => {
     return axios.create({
-        baseURL: 'https://posts-ifgsp6kg5-felitaurels-projects.vercel.app'
+        baseURL: apiURL
     });
 };
 
