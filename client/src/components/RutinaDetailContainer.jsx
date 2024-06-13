@@ -18,7 +18,7 @@ function RutinaDetailContainer() {
         }
     }
     useEffect(() => {
-        await fetchEjercicios();
+         fetchEjercicios();
     }, [rutina_id]
     )
     return (
