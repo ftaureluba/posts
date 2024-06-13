@@ -87,8 +87,8 @@ mongoose.connect(mongoDBURL)
         console.error('Error finding rutinas:', error);
       }
     }
-    app.get('/api', async (req, res) => {
-      res.setHeader("Access-Control-Allow-Origin", "https://example.com");
+    app.get('/', async (req, res) => {
+      res.setHeader("Access-Control-Allow-Origin", "https://taurel-server.vercel.app/");
       res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
       res.setHeader("Access-Control-Allow-Headers", "Content-Type");
       try {
