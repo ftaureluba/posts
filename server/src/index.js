@@ -11,9 +11,14 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs')
 const nodemailer = require('nodemailer');
 
+const corsOptions = {
+  origin: 'https://taurel-server.vercel.app/',
+  optionsSuccessStatus: 200
+};
+
 app.use(morgan('combined'));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors(corsOptions));
 
 const crypto = require('crypto');
 
@@ -82,7 +87,7 @@ mongoose.connect(mongoDBURL)
         console.error('Error finding rutinas:', error);
       }
     }
-    app.get('/', async (req, res) => {
+    app.get('/api', async (req, res) => {
       try {
         const rutinas = await findRutinas();
         res.json(rutinas);
