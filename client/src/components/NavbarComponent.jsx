@@ -22,7 +22,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
 
 function NavbarComponent() {
     const {isLoggedIn, logout} = React.useContext(AuthContext);
-    //const [anchorElNav, setAnchorElNav] = React.useState(null);
+    const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const navigate = useNavigate();
     /*const handleOpenNavMenu = (event) => {
