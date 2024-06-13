@@ -152,6 +152,7 @@ function NavbarComponent() {
                 sx={{ mt: '45px' }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
+                anchorElNav={anchorElNav}
                 anchorOrigin={{
                   vertical: 'top',
                   horizontal: 'right',
