@@ -11,14 +11,13 @@ const jwt = require('jsonwebtoken');
 const fs = require('fs')
 const nodemailer = require('nodemailer');
 
-const corsOptions = {
-  origin: 'https://taurel-server.vercel.app/',
-  optionsSuccessStatus: 200
-};
+
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
-app.use(cors(corsOptions));
+app.use(cors({
+    origin: "*"
+}));
 
 const crypto = require('crypto');
 
@@ -88,9 +87,6 @@ mongoose.connect(mongoDBURL)
       }
     }
     app.get('/', async (req, res) => {
-      res.setHeader("Access-Control-Allow-Origin", "https://taurel-server.vercel.app/");
-      res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
-      res.setHeader("Access-Control-Allow-Headers", "Content-Type");
       try {
         const rutinas = await findRutinas();
         res.json(rutinas);
