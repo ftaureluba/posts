@@ -88,6 +88,9 @@ mongoose.connect(mongoDBURL)
       }
     }
     app.get('/api', async (req, res) => {
+      res.setHeader("Access-Control-Allow-Origin", "https://example.com");
+      res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
+      res.setHeader("Access-Control-Allow-Headers", "Content-Type");
       try {
         const rutinas = await findRutinas();
         res.json(rutinas);
