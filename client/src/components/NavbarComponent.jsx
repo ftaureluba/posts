@@ -32,10 +32,10 @@ function NavbarComponent() {
     const handleOpenUserMenu = (event) => {
       setAnchorElUser(event.currentTarget);
     };
-/*
+
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
-  };*/
+  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);

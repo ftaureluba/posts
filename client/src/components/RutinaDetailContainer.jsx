@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState , useCallback} from 'react'
 import {useParams} from 'react-router-dom';
 import { apiService } from '../services/PostsService';
 import RutinaDetail from './RutinaDetail';
