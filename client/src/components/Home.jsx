@@ -16,7 +16,7 @@ function Home ()  {
   useEffect(() => {
     async function fetchRutinas ()  {
       try {
-        const response = await apiService.fetchData('/');
+        const response = await apiService.fetchData('/api');
         const data = Array.isArray(response.data) ? response.data : [];
         setRutinas(data);
       } catch (error) {
