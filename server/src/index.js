@@ -15,7 +15,9 @@ const nodemailer = require('nodemailer');
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors({
+  origin: '*'
+}));
 
 const crypto = require('crypto');
 
