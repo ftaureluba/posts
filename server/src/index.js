@@ -15,9 +15,7 @@ const nodemailer = require('nodemailer');
 
 app.use(morgan('combined'));
 app.use(bodyParser.json());
-app.use(cors({
-  origin: '*'
-}));
+app.use(cors());
 
 const crypto = require('crypto');
 
@@ -88,6 +86,7 @@ mongoose.connect(mongoDBURL)
     }
     app.get('/', async (req, res) => {
       try {
+      res.set('Access-Control-Allow-Origin', '*');
         const rutinas = await findRutinas();
         res.json(rutinas);
         //console.log(rutinas)
@@ -95,6 +94,16 @@ mongoose.connect(mongoDBURL)
         res.status(500).send('Error finding rutinas');
       }
     });
+    app.get('/api', async (req, res) => {
+          try {
+          res.set('Access-Control-Allow-Origin', '*');
+            const rutinas = await findRutinas();
+            res.json(rutinas);
+            //console.log(rutinas)
+          } catch (err) {
+            res.status(500).send('Error finding rutinas');
+          }
+        });
     app.get('/api/:rutina_id', async (req, res) => {
       try{
         const rutinas = await Rutina.findById(req.params.rutina_id).populate('ejercicios').exec();
