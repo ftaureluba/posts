@@ -16,8 +16,11 @@ function Home ()  {
   useEffect(() => {
     async function fetchRutinas ()  {
       try {
+        console.log("entro a fetchrutinas")
         const response = await apiService.fetchData('/api');
+        console.log('recibio response: ', response)
         const data = Array.isArray(response.data) ? response.data : [];
+        console.log('esta por setear las rutinas: ', response.data)
         setRutinas(data);
       } catch (error) {
         console.error('Error fetching rutinas:', error);
