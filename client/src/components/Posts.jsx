@@ -21,10 +21,10 @@ function Posts() {
       <h1>Posts</h1>
       <p>This file will list all the posts.</p>
       {posts.map(post => (
-        <div key={post.id}>
+        <div>
           <p>
-            <span><b>{post.title}</b></span><br />
-            <span>{post.description}</span>
+            <span><b>{post}</b></span><br />
+            <span>{post}</span>
           </p>
         </div>
       ))}
