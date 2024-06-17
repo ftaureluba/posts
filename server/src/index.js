@@ -82,7 +82,7 @@ app.get("/api/posts", (req, res) => {
 });
 
 mongoose.connect(mongoDBURL)
-  .then(() => {
+  //.then(() => {
 
     async function findRutinas() {
       try {
@@ -177,11 +177,11 @@ mongoose.connect(mongoDBURL)
     });
     
     findRutinas(); 
-  })
-  
+  //})
+  /*
   .catch((error) => {
     console.error('Error connecting to the database:', error);
-  });
+  });*/
 
 
 // app.js or routes file
