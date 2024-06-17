@@ -13,20 +13,21 @@ const nodemailer = require('nodemailer');
 
 
 
+  //origin: 'https://taurel-fitness-app.vercel.app', // Specify your frontend URL
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: 'https://taurel-fitness-app.vercel.app', // Specify your frontend URL
+  origin: 'https://taurel-fitness-app.vercel.app',
   optionsSuccessStatus: 200,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
-  allowedHeaders: "Content-Type,Authorization"
+  allowedHeaders: "Content-Type,Authorization,auth-token"
 };
 
 // Apply CORS middleware
 app.use(cors(corsOptions));
 
 // Handle pre-flight requests
-app.options('*', cors(corsOptions));
+//app.options('*', cors(corsOptions));
 
 const crypto = require('crypto');
 
