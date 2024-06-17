@@ -46,7 +46,12 @@ const password = process.env.PASSWORD;
 //dotenv.config()
 
 
-
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'https://taurel-fitness-app.vercel.app');
+  res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,auth-token');
+  next();
+});
 
 const verifyToken = async (req, res, next) => {
   const token = req.header('auth-token');
