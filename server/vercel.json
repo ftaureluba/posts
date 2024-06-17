@@ -5,7 +5,7 @@
   ],
   
   "rewrites": [{
-    "src":"/api/(.*)", "dest": "src/index.js"
+    "source":"/api/(.*)", "destination": "src/index.js"
   }],
   "headers": [
     {
