@@ -176,7 +176,7 @@ mongoose.connect(mongoDBURL)
       }
     });
     
-    findRutinas(); 
+    //findRutinas(); 
   //})
   /*
   .catch((error) => {
