@@ -7,7 +7,7 @@
   "rewrites": [
     {
       "source": "/api/:path*",
-      "destination": "https://taurel-server.vercel.app/:path*"
+      "destination": "https://taurel-fitness-app.vercel.app/:path*"
     }
   ],
   "headers": [
