@@ -73,11 +73,7 @@ const verifyToken = async (req, res, next) => {
   }
 };
 app.get("/api/posts", (req, res) => {
-    const coso = `<html>
-        <head><title>cosocosocoso
-        </title></head>
-        <body><h1>cocsoocsaihdoa</h1></body>
-        </html>`
+    const coso = ['cisi', 'da']
   res.send(coso);
 });
 
