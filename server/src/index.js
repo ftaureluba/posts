@@ -17,7 +17,7 @@ const nodemailer = require('nodemailer');
 app.use(morgan('combined'));
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: 'https://taurel-fitness-app.vercel.app',
+  origin: '*',
   optionsSuccessStatus: 200,
   methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
   allowedHeaders: "Content-Type,Authorization,auth-token"
