@@ -89,7 +89,7 @@ mongoose.connect(mongoDBURL)
         const {mongoClient} = await mongoHandler();
         const db = mongoClient.db("Fitness-App")
         const collection = db.collection("rutinas")
-        const rutinas = await collection.find({})
+        const rutinas = await collection.find({}).toArray();
         /*
         const rutinas = await Rutina.aggregate([
           {
