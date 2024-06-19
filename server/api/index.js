@@ -77,9 +77,8 @@ app.get("/api/posts", (req, res) => {
     const coso = ['cisi', 'da']
   res.send(coso);
 });
-try{
-await mongoose.connect(mongoDBURL)}
-catch(error){console.log(error)}
+
+mongoose.connect(mongoDBURL)
   //.then(() => {
 
     async function findRutinas() {
