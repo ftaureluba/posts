@@ -89,7 +89,16 @@ mongoose.connect(mongoDBURL)
         const {mongoClient} = await mongoHandler();
         const db = mongoClient.db("Fitness-App")
         const collection = db.collection("rutinas")
-        const rutinas = await collection.find({}).toArray();
+        const rutinas = await collection.aggregate([
+          {
+            $lookup: {
+              from: 'exercisestatics', // The name of the referenced collection
+              localField: 'ejercicios',
+              foreignField: '_id',
+              as: 'ejercicios'
+            }
+          }
+        ]).toArray();
         /*
         const rutinas = await Rutina.aggregate([
           {
