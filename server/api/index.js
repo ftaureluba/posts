@@ -10,8 +10,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const fs = require('fs')
 const nodemailer = require('nodemailer');
-
-
+const mongodb = require('mongodb')
+import { mongoHandler } from './connectToDatabase';
 
   //origin: 'https://taurel-fitness-app.vercel.app', // Specify your frontend URL
 app.use(morgan('combined'));
@@ -44,6 +44,9 @@ const secretKey = process.env.JWT_SECRET_KEY;
 const email = process.env.EMAIL;
 const password = process.env.PASSWORD;
 //dotenv.config()
+
+//manejar conexiones a mongodb
+
 
 
 app.use((req, res, next) => {
@@ -83,6 +86,11 @@ mongoose.connect(mongoDBURL)
 
     async function findRutinas() {
       try {
+        const {mongoClient} = await mongoHandler();
+        const db = mongoClient.db("Fitness-App")
+        const collection = db.collection("rutinas")
+        const rutinas = await collection.find({})
+        /*
         const rutinas = await Rutina.aggregate([
           {
             $lookup: {
@@ -92,7 +100,7 @@ mongoose.connect(mongoDBURL)
               as: 'ejercicios'
             }
           }
-        ]);
+        ]);*/
         return rutinas;
       } catch (error) {
         console.error('Error finding rutinas:', error);
