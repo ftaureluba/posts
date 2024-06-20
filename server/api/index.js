@@ -81,7 +81,7 @@ app.get("/api/posts", (req, res) => {
   res.send(coso);
 });
 
-mongoose.connect(mongoDBURL)
+//mongoose.connect(mongoDBURL)
   //.then(() => {
 
     async function findRutinas() {
