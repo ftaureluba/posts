@@ -134,13 +134,18 @@ app.get("/api/posts", (req, res) => {
     });
     app.get('/api/:rutina_id', async (req, res) => {
       try{
-        const rutinas = await Rutina.findById(req.params.rutina_id).populate('ejercicios').exec();
+        const {mongoClient} = await mongoHandler();
+        const db = mongoClient.db("Fitness-App")
+        const collection = db.collection("rutinas")
+        const rutina = collection.findById(req.params.rutina_id)
+        //const rutinas = await Rutina.findById(req.params.rutina_id).populate('ejercicios').exec();
 
         //console.log(rutinas)
-        if (!rutinas) {
+        if (!rutina) {
           return res.status(404).send('Rutina not found');
         }
-        res.json(rutinas)
+        rutina.populate('ejercicios').exec()
+        res.json(rutina)
       }catch(err) {res.status(500).send('error buscando rutinas')}
     })/*
     app.post('/api/workouts', async (req, res) => {
