@@ -139,7 +139,7 @@ app.get("/api/posts", (req, res) => {
         const collection = db.collection("rutinas")
         const rutina = await collection.aggregate([
           {
-              $match: { _id: new ObjectId(req.params.rutina_id) } 
+              $match: { _id: req.params.rutina_id } 
           },
           {
               $lookup: {
