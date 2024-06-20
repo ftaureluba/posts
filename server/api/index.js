@@ -137,9 +137,18 @@ app.get("/api/posts", (req, res) => {
         const {mongoClient} = await mongoHandler();
         const db = mongoClient.db("Fitness-App")
         const collection = db.collection("rutinas")
+        const rutinaId = req.params.rutina_id;
+
+        // Verify if the provided ID is a valid MongoDB ObjectId
+        if (!ObjectId.isValid(rutinaId)) {
+            return res.status(400).send('Invalid rutina ID');
+        }
+
+        // Convert rutinaId to ObjectId
+        const rutinaObjectId = new ObjectId(rutinaId);
         const rutina = await collection.aggregate([
           {
-              $match: { _id: req.params.rutina_id } 
+              $match: { _id: rutinaObjectId } 
           },
           {
               $lookup: {
@@ -157,7 +166,7 @@ app.get("/api/posts", (req, res) => {
           return res.status(404).send('Rutina not found');
         }
         //rutina.populate('ejercicios').exec()
-        res.json(rutina)
+        res.json(rutina[0])
       }catch(err) {res.status(500).send('error buscando rutinas')}
     })/*
     app.post('/api/workouts', async (req, res) => {
