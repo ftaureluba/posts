@@ -137,14 +137,26 @@ app.get("/api/posts", (req, res) => {
         const {mongoClient} = await mongoHandler();
         const db = mongoClient.db("Fitness-App")
         const collection = db.collection("rutinas")
-        const rutina = collection.findById(req.params.rutina_id)
+        const rutina = await collection.aggregate([
+          {
+              $match: { _id: new ObjectId(req.params.rutina_id) } 
+          },
+          {
+              $lookup: {
+                  from: 'exercisestatics', // The name of the referenced collection
+                  localField: 'ejercicios',
+                  foreignField: '_id',
+                  as: 'ejercicios'
+              }
+          }
+      ]).toArray();
         //const rutinas = await Rutina.findById(req.params.rutina_id).populate('ejercicios').exec();
 
         //console.log(rutinas)
         if (!rutina) {
           return res.status(404).send('Rutina not found');
         }
-        rutina.populate('ejercicios').exec()
+        //rutina.populate('ejercicios').exec()
         res.json(rutina)
       }catch(err) {res.status(500).send('error buscando rutinas')}
     })/*
