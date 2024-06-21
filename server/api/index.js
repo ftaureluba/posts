@@ -138,7 +138,7 @@ app.get("/api/posts", (req, res) => {
         console.log('paso la conexion')
         const db = mongoClient.db("Fitness-App")
         const collection = db.collection("rutinas")
-        const rutinaId = new ObjectId(req.params.rutina_id);
+        const rutinaId = req.params.rutina_id;
         console.log('pudo crear el object id')
         // Verify if the provided ID is a valid MongoDB ObjectId
         if (!ObjectId.isValid(rutinaId)) {
