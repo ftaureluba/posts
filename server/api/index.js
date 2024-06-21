@@ -140,11 +140,7 @@ app.get("/api/posts", (req, res) => {
         const collection = db.collection("rutinas")
         const rutinaId = req.params.rutina_id;
         console.log('pudo crear el object id')
-        // Verify if the provided ID is a valid MongoDB ObjectId
-        if (!ObjectId.isValid(rutinaId)) {
-            return res.status(400).send('Invalid rutina ID');
-        }
-        console.log('esta por hacer el aggregate')
+        
         // Convert rutinaId to ObjectId
         const rutinaObjectId = new ObjectId(rutinaId);
         const rutina = await collection.aggregate([
