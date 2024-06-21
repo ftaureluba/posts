@@ -135,15 +135,16 @@ app.get("/api/posts", (req, res) => {
     app.get('/api/:rutina_id', async (req, res) => {
       try{
         const {mongoClient} = await mongoHandler();
+        console.log('paso la conexion')
         const db = mongoClient.db("Fitness-App")
         const collection = db.collection("rutinas")
         const rutinaId = new ObjectId(req.params.rutina_id);
-
+        console.log('pudo crear el object id')
         // Verify if the provided ID is a valid MongoDB ObjectId
         if (!ObjectId.isValid(rutinaId)) {
             return res.status(400).send('Invalid rutina ID');
         }
-
+        console.log('esta por hacer el aggregate')
         // Convert rutinaId to ObjectId
         const rutinaObjectId = new ObjectId(rutinaId);
         const rutina = await collection.aggregate([
@@ -160,7 +161,7 @@ app.get("/api/posts", (req, res) => {
           }
       ]).toArray();
         //const rutinas = await Rutina.findById(req.params.rutina_id).populate('ejercicios').exec();
-
+      console.log('ya hizo el agregate')
         //console.log(rutinas)
         if (!rutina) {
           return res.status(404).send('Rutina not found');
