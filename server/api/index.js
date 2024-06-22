@@ -139,10 +139,10 @@ app.get("/api/posts", (req, res) => {
         const db = mongoClient.db("Fitness-App")
         const collection = db.collection("rutinas")
         const rutinaId = req.params.rutina_id;
-        console.log('pudo crear el object id')
+        console.log('pudo crear el object id', rutinaId)
         
         // Convert rutinaId to ObjectId
-        const rutinaObjectId = mongoose.Types.ObjectId(rutinaId);
+        const rutinaObjectId = new mongoose.Types.ObjectId(rutinaId);
         console.log('ahora si es el object id como tal')
         const rutina = await collection.aggregate([
           {
