@@ -142,7 +142,7 @@ app.get("/api/posts", (req, res) => {
         console.log('pudo crear el object id')
         
         // Convert rutinaId to ObjectId
-        const rutinaObjectId = new ObjectId(rutinaId);
+        const rutinaObjectId = ObjectId(rutinaId);
         console.log('ahora si es el object id como tal')
         const rutina = await collection.aggregate([
           {
