@@ -257,6 +257,7 @@ app.post('/api/login', async (req, res) => {
     const user = await collection.aggregate([
       {$match: {email: req.body.email}}
     ])
+    console.log('pudo encontrar el user: ', user)
     if (!user) {
       return res.status(400).send('User not found');
     }
@@ -267,10 +268,12 @@ app.post('/api/login', async (req, res) => {
     if (!isPasswordValid) {
       return res.status(400).send('Invalid email or password');
     }
-
+    console.log('contrasena valida')
     // Generate a JWT token
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY);
+    console.log('token valido')
     res.header('auth-token', token).send({token});
+    console.log('token enviado')
   } catch (error) {
     res.status(500).send('Error logging in');
   }
