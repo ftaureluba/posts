@@ -261,9 +261,11 @@ app.post('/api/login', async (req, res) => {
     if (!user) {
       return res.status(400).send('User not found');
     }
+    console.log('si. Esta verificado?')
     if (!user.isVerified) {
       return res.status(401).send('Account not verified');
     }
+    console.log('si, encuentra la contrasena?')
     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
     if (!isPasswordValid) {
       return res.status(400).send('Invalid email or password');
