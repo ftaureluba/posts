@@ -257,7 +257,7 @@ app.post('/api/login', async (req, res) => {
     const user = await collection.aggregate([
       {$match: {email: req.body.email}}
     ])
-    console.log('pudo encontrar el user: ', user)
+    console.log('pudo encontrar el user? ')
     if (!user) {
       return res.status(400).send('User not found');
     }
