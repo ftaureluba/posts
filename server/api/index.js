@@ -188,16 +188,31 @@ app.get("/api/posts", (req, res) => {
             sets: exercise.sets
           }))
         });
-        const savedWorkout = await newWorkout.save();
+        
     
         // Associate the workout with the user
         /*const user = await User.findById(req.user._id);
         user.workouts.push(savedWorkout._id);
         await user.save();*/
-        const user = await User.findById(req.user._id);
-        user.workouts.push(savedWorkout._id);
-        await user.save();
-        res.status(201).json(savedWorkout);
+        const {mongoClient} = await mongoHandler();
+        console.log('paso la conexion')
+        const db = mongoClient.db("Fitness-App")
+        const collection = db.collection("users")
+        const workoutCollection = db.collection('workouts')
+        console.log('esta por hacer el insertOne para workouts')
+        const workoutSaved = await workoutCollection.insertOne(newWorkout)
+        const workoutId = workoutSaved.insertedId;
+        
+        const userId = req.user._id
+        //const userObjectId= new mongoose.Types.ObjectId(userId) esta de mas? creo que req.user._id ya da el objectid como tal
+
+        const userUpdated = await collection.updateOne(
+          {_id : userId},
+          {$push: {workouts: workoutId}}
+        )
+        //user.workouts.push(savedWorkout._id);
+        //await user.save();
+        res.status(201).json(workoutSaved);
       } catch (err) {
         res.status(500).send("Error saving workout");
       }
@@ -235,7 +250,13 @@ app.get('/api/exercises', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
   try {
-    const user = await User.findOne({ email: req.body.email });
+    const {mongoClient} = await mongoHandler();
+    console.log('paso la conexion')
+    const db = mongoClient.db("Fitness-App")
+    const collection = db.collection("users")
+    const user = await collection.aggregate([
+      {$match: {email: req.body.email}}
+    ])
     if (!user) {
       return res.status(400).send('User not found');
     }
