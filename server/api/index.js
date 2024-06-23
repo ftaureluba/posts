@@ -254,9 +254,10 @@ app.post('/api/login', async (req, res) => {
     console.log('paso la conexion')
     const db = mongoClient.db("Fitness-App")
     const collection = db.collection("users")
-    const user = await collection.aggregate([
+    const users = await collection.aggregate([
       {$match: {email: req.body.email}}
-    ])
+    ]).toArray();
+    const user = users[0]
     console.log('pudo encontrar el user? ')
     if (!user) {
       return res.status(400).send('User not found');
