@@ -15,10 +15,12 @@ function Login() {
 
       try {
           const response = await apiService.PostData('/api/login', { email, password });
+          console.log('creo q conecto bien', response)
           const { token } = response.data;
 
           // Store the token in local storage or a cookie, depending on your preference
           localStorage.setItem('token', token);
+          console.log('seteo el token: ', token)
         login(token)
           // Redirect to the home page
           console.log(token)
