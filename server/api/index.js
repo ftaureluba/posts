@@ -62,15 +62,18 @@ const verifyToken = async (req, res, next) => {
   if (!token) return res.status(401).send('Access denied');
 
   try {
+    console.log('esta por hacer el verify')
     const verified = jwt.verify(token, secretKey);
+    console.log('esta por setear req.user')
     req.user = verified;
-
+    console.log('esta por hacer el findbyid')
     // Check if the user is verified
     const user = await User.findById(req.user._id);
+    console.log('hizo el findbyid')
     if (!user.isVerified) {
       return res.status(401).send('Account not verified');
     }
-
+    console.log('hizo es isverified')
     next();
   } catch (error) {
     res.status(400).send('Invalid token');
