@@ -74,6 +74,7 @@ const verifyToken = async (req, res, next) => {
     const collection = db.collection("users")
 
     const userId = req.user._id;
+    console.log(userId)
     const userObjectId = new ObjectId(userId)
 
     const user = await collection.findOne({_id: userObjectId});
