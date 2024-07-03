@@ -73,7 +73,7 @@ const verifyToken = async (req, res, next) => {
     const db = mongoClient.db("Fitness-App");
     const collection = db.collection("users")
 
-    const userId = req.user._id;
+    const userId = new mongoose.Types.ObjectId(req.user._id);
     console.log(userId)
     //const userObjectId = new ObjectId(userId)
 
