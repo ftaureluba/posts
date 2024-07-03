@@ -217,7 +217,7 @@ app.get("/api/posts", (req, res) => {
         const workoutSaved = await workoutCollection.insertOne(newWorkout)
         const workoutId = workoutSaved.insertedId;
         
-        const userId = req.user._id
+        const userId = new mongoose.Types.ObjectId(req.user._id);
         //const userObjectId= new mongoose.Types.ObjectId(userId) esta de mas? creo que req.user._id ya da el objectid como tal
 
         const userUpdated = await collection.updateOne(
