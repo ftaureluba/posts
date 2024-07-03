@@ -68,7 +68,17 @@ const verifyToken = async (req, res, next) => {
     req.user = verified;
     console.log('esta por hacer el findbyid')
     // Check if the user is verified
-    const user = await User.findById(req.user._id);
+
+    const {mongoClient} = await mongoHandler();
+    const db = mongoClient.db("Fitness-App");
+    const collection = db.collection("users")
+
+    const userId = req.user._id;
+    const userObjectId = new ObjectId(userId)
+
+    const user = await collection.findOne({_id: userObjectId});
+    
+    
     console.log('hizo el findbyid, user: ', user)
     if (!user.isVerified) {
       return res.status(401).send('Account not verified');
