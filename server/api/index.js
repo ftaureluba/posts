@@ -75,9 +75,9 @@ const verifyToken = async (req, res, next) => {
 
     const userId = req.user._id;
     console.log(userId)
-    const userObjectId = new ObjectId(userId)
+    //const userObjectId = new ObjectId(userId)
 
-    const user = await collection.findOne({_id: userObjectId});
+    const user = await collection.findOne({_id: userId});
     
     
     console.log('hizo el findbyid, user: ', user)
