@@ -69,7 +69,7 @@ const verifyToken = async (req, res, next) => {
     console.log('esta por hacer el findbyid')
     // Check if the user is verified
     const user = await User.findById(req.user._id);
-    console.log('hizo el findbyid')
+    console.log('hizo el findbyid, user: ', user)
     if (!user.isVerified) {
       return res.status(401).send('Account not verified');
     }
