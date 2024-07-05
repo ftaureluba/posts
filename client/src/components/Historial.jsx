@@ -19,6 +19,7 @@ const WorkoutHistory = () => {
     fetchWorkouts();
   }, []);
   console.log(workouts)
+  console.log('pero me cago')
   return (
     <div className="workout-history">
       <h2>Your Workout History</h2>
