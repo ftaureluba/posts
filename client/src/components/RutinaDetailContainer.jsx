@@ -23,7 +23,7 @@ function RutinaDetailContainer() {
     )*/
     const fetchEjercicios = useCallback(async () => { //A CHEQUEAR, ESTO ME LO DIO GPT
         try {
-          const response = await apiService.fetchData(`/api/${rutina_id}`);
+          const response = await apiService.fetchData(`/api/rutina/${rutina_id}`);
           setEjercicios(response.data.ejercicios);
           console.log(response);
         } catch (err) {

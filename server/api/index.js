@@ -146,7 +146,7 @@ app.get("/api/posts", (req, res) => {
         res.status(500).send('Error finding rutinas');
       }
     });
-    app.get('/api/:rutina_id', async (req, res) => {
+    app.get('/api/rutina/:rutina_id', async (req, res) => {
       try{
         const {mongoClient} = await mongoHandler();
         console.log('paso la conexion')
