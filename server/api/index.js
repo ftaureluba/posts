@@ -233,6 +233,14 @@ app.get("/api/posts", (req, res) => {
     });
     app.get('/api/workouts', verifyToken, async (req, res) => {
       try {
+        const {mongoClient} = await mongoHandler();
+        const db = mongoClient.db("Fitness-App")
+        const collection = db.collection("workouts") 
+        console.log('esta en historial')
+        const userId = req.user._id
+        const userObjectId = new mongoose.Types.ObjectId(userId)
+
+
         const workouts = await Workout.find({ userId: req.user._id }).populate({
           path: 'exercises.exerciseId',
           model: 'exerciseStatic'
