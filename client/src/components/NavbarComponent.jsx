@@ -15,7 +15,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import AuthContext from './AuthContext';
 
 const pages = [
-  { title: 'Historial', path: '/api/historial' },
+  { title: 'Historial', path: '/historial' },
   // Add more pages as needed
 ];
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
