@@ -257,7 +257,7 @@ app.get("/api/posts", (req, res) => {
         }).exec();*/
 
 
-        const workoutsFetched = await workoutCollection.find({_id:  userObjectId}).toArray()
+        const workoutsFetched = await workoutCollection.find({userId:  userObjectId}).toArray()
         console.log('Workouts fetched:', workoutsFetched);
         const workouts = workoutsFetched.map(
           workout => ({
