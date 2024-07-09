@@ -401,7 +401,7 @@ app.get('/api/verify-email', async (req, res) => {
       return res.status(400).send('Invalid or expired token');
     }
     console.log('coso')
-    const userId = req.user._id // quizas solo user._id??
+    const userId = user._id // quizas solo user._id??
     console.log(userId)
     const userObjectId = new mongoose.Types.ObjectId(userId)
     console.log(userObjectId)
