@@ -235,16 +235,39 @@ app.get("/api/posts", (req, res) => {
       try {
         const {mongoClient} = await mongoHandler();
         const db = mongoClient.db("Fitness-App")
-        const collection = db.collection("workouts") 
+        const workoutCollection = db.collection("workouts") 
+        const exercisesCollection = db.collection("exercisestatics")
+
+
         console.log('esta en historial')
         const userId = req.user._id
         const userObjectId = new mongoose.Types.ObjectId(userId)
 
+        const exercises = await exercisesCollection.find().toArray();
+        const exerciseMap = exercises.reduce((map, exercise) => {
+          map[exercise._id.toString()] = exercise.name; // Assuming each exercise has a 'name' field
+          return map;
+        }, {});
 
+/*
         const workouts = await Workout.find({ userId: req.user._id }).populate({
           path: 'exercises.exerciseId',
           model: 'exerciseStatic'
-        }).exec();
+        }).exec();*/
+
+
+        const workoutsFetched = await workoutCollection.find({userId:  req.user._id}).toArray()
+
+        const workouts = workoutsFetched.map(
+          workout => ({
+            ...workout,
+            exercises: workout.exercises.map(exercise => ({
+              ...exercise,
+              exerciseName: exerciseMap[exercise.exerciseId.toString()]
+            }))
+          })
+        )
+
         res.json(workouts);
       } catch (err) {
         res.status(500).send('Error fetching workouts');
