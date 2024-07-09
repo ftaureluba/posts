@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { apiService } from '../services/PostsService';
 
 const VerifyEmail = () => {
-  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const [message, setMessage] = useState('');
 
   useEffect(() => {
     const verifyEmail = async () => {
       try {
-        const params = new URLSearchParams(location.search);
-        const token = params.get('token');
+        
+        const token = searchParams.get('token');
+        if (!token) {setMessage('Token invalido')}
+
+
         const response = await apiService.fetchData(`/api/verify-email?token=${token}`);
         setMessage(response.data);
       } catch (error) {
@@ -19,7 +22,7 @@ const VerifyEmail = () => {
       }
     };
     verifyEmail();
-  }, [location.search]);
+  }, [searchParams]);
 
   return <div>{message}</div>;
 };

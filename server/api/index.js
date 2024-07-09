@@ -341,7 +341,7 @@ async function sendVerificationEmail(user) {
     to: user.email,
     subject: 'Account Verification',
     text: `Please verify your account by clicking the link: 
-    http://localhost:3000/verify-email?token=${user.verificationToken}`
+    https://taurel-fitness-app.vercel.app/verify-email?token=${user.verificationToken}`
   };
 try {
     let info = await transporter.sendMail(mailOptions);
@@ -358,6 +358,11 @@ app.post('/api/signup', async (req, res) => {
     const { mongoClient } = await mongoHandler();
     const db = mongoClient.db("Fitness-App");
     const userCollection = db.collection("users");
+
+    const existingUser = await userCollection.findOne({ email: email });
+    if (existingUser) {
+      return res.status(400).send('Ya existe una cuenta con este email.');
+    }
 
     const user = {
       username: req.body.username,
