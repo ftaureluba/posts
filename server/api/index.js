@@ -354,14 +354,21 @@ app.post('/api/signup', async (req, res) => {
     const verificationToken = generateVerificationToken();
     const tokenExpiration = Date.now() + 3600000;
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const user = new User({
+    
+    const { mongoClient } = await mongoHandler();
+    const db = mongoClient.db("Fitness-App");
+    const userCollection = db.collection("users");
+
+    const user = {
       username: req.body.username,
       password: hashedPassword,
       email: req.body.email,
       verificationToken: verificationToken,
-      tokenExpiration: tokenExpiration
-    });
-    await user.save();
+      tokenExpiration: tokenExpiration,
+      isVerified: false,
+      workouts: []
+    };
+    await userCollection.insertOne(user);
     await sendVerificationEmail(user);
     res.status(201).send('User created successfully, please check email to verificate account.');
   } catch (error) {
@@ -372,17 +379,30 @@ app.post('/api/signup', async (req, res) => {
 app.get('/api/verify-email', async (req, res) => {
   try {
     const { token } = req.query;
-    const user = await User.findOne({ verificationToken: token, tokenExpiration: { $gt: Date.now() } });
+    const { mongoClient } = await mongoHandler();
+    const db = mongoClient.db("Fitness-App");
+    const userCollection = db.collection("users");
 
+    const user = await userCollection.findOne({ 
+      verificationToken: token, 
+      tokenExpiration: { $gt: Date.now() } 
+    });
     if (!user) {
       return res.status(400).send('Invalid or expired token');
     }
 
-    user.isVerified = true;
-    user.verificationToken = undefined;
-    user.tokenExpiration = undefined;
-    await user.save();
-
+    const updatedUser = await userCollection.updateOne(
+      { _id: new ObjectId(user._id) },
+      {
+        $set: {
+          isVerified: true
+        },
+        $unset: {
+          verificationToken: "",
+          tokenExpiration: ""
+        }
+      }
+    );
     res.send('Account verified successfully');
   } catch (error) {
     res.status(500).send('Error verifying account');
