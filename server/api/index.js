@@ -402,8 +402,10 @@ app.get('/api/verify-email', async (req, res) => {
     }
     console.log('coso')
     const userId = req.user._id // quizas solo user._id??
+    console.log(userId)
     const userObjectId = new mongoose.Types.ObjectId(userId)
-    const updatedUser = await userCollection.updateOne(
+    console.log(userObjectId)
+    await userCollection.updateOne(
       { _id: userObjectId },
       {
         $set: {
