@@ -249,6 +249,7 @@ app.get("/api/posts", (req, res) => {
           return map;
         }, {});
 
+        console.log('Exercises fetched and mapped:', exerciseMap);
 /*
         const workouts = await Workout.find({ userId: req.user._id }).populate({
           path: 'exercises.exerciseId',
@@ -257,7 +258,7 @@ app.get("/api/posts", (req, res) => {
 
 
         const workoutsFetched = await workoutCollection.find({userId:  req.user._id}).toArray()
-
+        console.log('Workouts fetched:', workoutsFetched);
         const workouts = workoutsFetched.map(
           workout => ({
             ...workout,
@@ -267,7 +268,7 @@ app.get("/api/posts", (req, res) => {
             }))
           })
         )
-
+        console.log("objecto workouts: ", workouts)
         res.json(workouts);
       } catch (err) {
         res.status(500).send('Error fetching workouts');
