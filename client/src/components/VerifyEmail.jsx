@@ -12,7 +12,7 @@ const VerifyEmail = () => {
       try {
         
         const token = searchParams.get('token');
-        if (!token) {setMessage('Token invalido')}
+        if (!token) {setMessage('Token invalido'); return;}
 
 
         const response = await apiService.fetchData(`/api/verify-email?token=${token}`);

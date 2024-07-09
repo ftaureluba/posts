@@ -401,8 +401,10 @@ app.get('/api/verify-email', async (req, res) => {
       return res.status(400).send('Invalid or expired token');
     }
     console.log('coso')
+    const userId = req.user._id // quizas solo user._id??
+    const userObjectId = new mongoose.Types.ObjectId(userId)
     const updatedUser = await userCollection.updateOne(
-      { _id: new ObjectId(user._id) },
+      { _id: userObjectId },
       {
         $set: {
           isVerified: true
