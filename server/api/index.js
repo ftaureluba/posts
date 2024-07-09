@@ -388,14 +388,19 @@ app.get('/api/verify-email', async (req, res) => {
     const db = mongoClient.db("Fitness-App");
     const userCollection = db.collection("users");
 
+    console.log("entro a verify")
+
     const user = await userCollection.findOne({ 
       verificationToken: token, 
       tokenExpiration: { $gt: Date.now() } 
     });
+
+    console.log("encontro al user", user)
+
     if (!user) {
       return res.status(400).send('Invalid or expired token');
     }
-
+    console.log('coso')
     const updatedUser = await userCollection.updateOne(
       { _id: new ObjectId(user._id) },
       {
@@ -408,6 +413,7 @@ app.get('/api/verify-email', async (req, res) => {
         }
       }
     );
+    console.log("termino?")
     res.send('Account verified successfully');
   } catch (error) {
     res.status(500).send('Error verifying account');
