@@ -29,10 +29,12 @@ const WorkoutHistory = () => {
           {workouts.map((workout) => (
             <li key={workout._id} className="workout-item">
               <h3>{new Date(workout.date).toLocaleDateString()}</h3>
+              {console.log(exercises)}
               <ul>
                 {workout.exercises.map((exercise, index) => (
+                  
                   <li key={index}>
-                    <strong>{exercise.exerciseId.name}</strong>
+                    <strong>{exercise.exerciseName}</strong>
                     <ul>
                       {exercise.sets.map((set, setIndex) => (
                         <li key={setIndex}>
