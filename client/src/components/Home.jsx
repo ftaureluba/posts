@@ -13,7 +13,8 @@ import '../styles/home.css';
 import { Link, useNavigate } from 'react-router-dom';
 function Home ()  {
   const [rutinas, setRutinas] = useState([]);
-  navigate = useNavigate();
+  const navigate = useNavigate();
+  const {isLoggedIn, logout} = React.useContext(AuthContext);
   const handleNavigate = (path) => {
     navigate(path)
   };
@@ -48,7 +49,7 @@ function Home ()  {
       ))}
       </div>)
       :(
-        <div> <H1>Por favor, <button onClick={handleNavigate('/login')}>inicie sesion</button> o <button onClick={handleNavigate('/signup')}>crea una cuenta</button> para continuar </H1>
+        <div> <h1>Por favor, <button onClick={handleNavigate('/login')}>inicie sesion</button> o <button onClick={handleNavigate('/signup')}>crea una cuenta</button> para continuar </h1>
          </div>
       )
     }
