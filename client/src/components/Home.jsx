@@ -51,7 +51,7 @@ function Home ()  {
       ))}
       </div>)
       :(
-        <div> <h1>Por favor, <button onClick={handleNavigate('/login')}>inicie sesion</button> o <button onClick={handleNavigate('/signup')}>crea una cuenta</button> para continuar </h1>
+        <div> <h1>Por favor, <button onClick={handleNavigate('/login')}>inicie sesion</button> para continuar </h1>
          </div>
       )
     }
