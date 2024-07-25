@@ -11,6 +11,8 @@ import Rutina from './Rutina';
 import { apiService } from '../services/PostsService';
 import '../styles/home.css';
 import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from './AuthContext';
+
 function Home ()  {
   const [rutinas, setRutinas] = useState([]);
   const navigate = useNavigate();
