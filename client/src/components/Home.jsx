@@ -42,7 +42,7 @@ function Home ()  {
     
     <div className='home-container'>
       {isLoggedIn ? (
-        <div>
+        <div className='home-container'>
       {Array.isArray(rutinas) && rutinas.map(rutina => (
         <div key={rutina._id} className='rutina-item'>
           <Rutina key={rutina._id} rutina={rutina} />

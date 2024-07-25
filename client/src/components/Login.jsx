@@ -31,7 +31,7 @@ function Login() {
           // Handle the error, e.g., show an error message to the user
       }
   }
-
+  console.log('entro a login')
   return (
       <div>
           <form onSubmit={handleSubmit}>
