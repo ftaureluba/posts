@@ -10,8 +10,13 @@ import React, { useEffect, useState } from 'react';
 import Rutina from './Rutina';
 import { apiService } from '../services/PostsService';
 import '../styles/home.css';
+import { Link, useNavigate } from 'react-router-dom';
 function Home ()  {
   const [rutinas, setRutinas] = useState([]);
+  navigate = useNavigate();
+  const handleNavigate = (path) => {
+    navigate(path)
+  };
 
   useEffect(() => {
     async function fetchRutinas ()  {
@@ -31,12 +36,22 @@ function Home ()  {
   }, []);
   console.log(rutinas)
   return (
+    
     <div className='home-container'>
+      {isLoggedIn ? (
+        <div>
       {Array.isArray(rutinas) && rutinas.map(rutina => (
         <div key={rutina._id} className='rutina-item'>
           <Rutina key={rutina._id} rutina={rutina} />
         </div>
+        
       ))}
+      </div>)
+      :(
+        <div> <H1>Por favor, <button onClick={handleNavigate('/login')}>inicie sesion</button> o <button onClick={handleNavigate('/signup')}>crea una cuenta</button> para continuar </H1>
+         </div>
+      )
+    }
     </div>
   );
 };
