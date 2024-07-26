@@ -24,18 +24,16 @@ const Rutina = ({rutina}) => {
       margin: '10px', // Margin for spacing between cards
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)', // Subtle shadow for 3D effect
       borderRadius: '8px', // Rounded corners
-      backgroundColor: '#1976d2', // White background for better contrast
+      backgroundColor: '#111112', // White background for better contrast
       padding: '10px', // Padding inside the card
       '&:hover': {
         boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)', // Enhanced shadow on hover
       },
+      color: 'white'
     }}>
         
         {rutina.Rutina}
-        <CardContent sx = {{
-          backgroundColor: 'black',
-          color: 'white'
-        }}>
+        <CardContent >
             <p>{rutina.Descripcion}</p>
             
             {ejercicios.map((ejercicio, index) => (
