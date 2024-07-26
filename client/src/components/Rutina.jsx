@@ -1,8 +1,8 @@
 import React from 'react'
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
-import { CardActionArea, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Button, CardActionArea, Typography } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/rutinaCard.css'
 const Rutina = ({rutina}) => {
   console.log(rutina)
@@ -36,6 +36,7 @@ const Rutina = ({rutina}) => {
             <Typography key={index} variant="body2" color="text.primary">
               - {ejercicio.name}
             </Typography>))}
+            <Button onClick={() => useNavigate(`/${rutinaID}`)} variant='contained'>Empezar entrenamiento</Button>
         </CardContent>
         </CardActionArea>    
     </Card>

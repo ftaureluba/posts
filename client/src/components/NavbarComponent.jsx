@@ -18,7 +18,7 @@ const pages = [
   { title: 'Historial', path: '/historial' },
   // Add more pages as needed
 ];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const settings = ['Logout'];
 
 function NavbarComponent() {
     const {isLoggedIn, logout} = React.useContext(AuthContext);
