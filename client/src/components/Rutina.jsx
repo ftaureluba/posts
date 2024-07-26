@@ -8,7 +8,10 @@ const Rutina = ({rutina}) => {
   console.log(rutina)
   const rutinaID = rutina._id.toString();
   const ejercicios = rutina.ejercicios
-  
+  const navigate = useNavigate();
+  const handleNavigate = (path) => {
+    navigate(path)
+  };
   return (
     
     <Card sx={{
@@ -36,7 +39,7 @@ const Rutina = ({rutina}) => {
             <Typography key={index} variant="body2" color="text.primary">
               - {ejercicio.name}
             </Typography>))}
-            <Button onClick={() => useNavigate(`/${rutinaID}`)} variant='contained'>Empezar entrenamiento</Button>
+            <Button onClick={() => handleNavigate(`/${rutinaID}`)} variant='contained'>Empezar entrenamiento</Button>
         </CardContent>
         </CardActionArea>    
     </Card>
