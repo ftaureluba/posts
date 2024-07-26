@@ -5,7 +5,7 @@ function ExerciseForm({ sets, handleChange, addSet }) {
   return (
     <div>
       {sets.map((set, setIndex) => (
-        <div key={setIndex}>
+        <div key={setIndex} sx = {{ display: inline}}>
           
           <input
             type="number"
