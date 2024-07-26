@@ -30,18 +30,21 @@ const Rutina = ({rutina}) => {
         boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)', // Enhanced shadow on hover
       },
     }}>
-        <CardActionArea component={Link} to={`/${rutinaID}`}>
+        
         {rutina.Rutina}
-        <CardContent>
+        <CardContent sx = {{
+          backgroundColor: 'black',
+          color: 'white'
+        }}>
             <p>{rutina.Descripcion}</p>
             
             {ejercicios.map((ejercicio, index) => (
-            <Typography key={index} variant="body2" color="text.primary">
+            <Typography key={index} variant="body2" color="white">
               - {ejercicio.name}
             </Typography>))}
             <Button onClick={() => handleNavigate(`/${rutinaID}`)} variant='contained'>Empezar entrenamiento</Button>
         </CardContent>
-        </CardActionArea>    
+        
     </Card>
   )
 }
