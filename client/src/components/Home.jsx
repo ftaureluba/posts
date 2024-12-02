@@ -5,6 +5,25 @@ import { apiService } from '../services/PostsService';
 import '../styles/home.css';
 import {  useNavigate } from 'react-router-dom';
 import AuthContext from './AuthContext';
+import { Box, Typography, Link, Container, Paper } from '@mui/material';
+import { styled } from '@mui/material/styles';
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  backgroundColor: 'rgba(17, 17, 18, 0.95)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '16px',
+  padding: theme.spacing(4),
+  color: 'white',
+  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
+}));
+
+const StyledLink = styled(Link)(({ theme }) => ({
+  color: theme.palette.primary.main,
+  textDecoration: 'none',
+  '&:hover': {
+    textDecoration: 'underline',
+  },
+}));
 
 function Home ()  {
   const [rutinas, setRutinas] = useState([]);
@@ -46,11 +65,39 @@ function Home ()  {
       ):
       (
         
-        <div className='home-container'> 
-          <h1>
-            Por favor, <button onClick={ () => handleNavigate('/login')}>inicie sesion</button> o <button onClick={ () => handleNavigate('/signup')}>crea una cuenta</button> para continuar 
-          </h1>
-        </div>
+        <Container maxWidth="md">
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
+        <StyledPaper elevation={3}>
+          <Typography variant="h4" component="h1" gutterBottom align="center">
+            Por favor,{' '}
+            <StyledLink
+              component="span"
+              onClick={() => handleNavigate('/login')}
+              sx={{ cursor: 'pointer' }}
+            >
+              inicie sesión
+            </StyledLink>{' '}
+            o{' '}
+            <StyledLink
+              component="span"
+              onClick={() => handleNavigate('/signup')}
+              sx={{ cursor: 'pointer' }}
+            >
+              cree una cuenta
+            </StyledLink>{' '}
+            para continuar
+          </Typography>
+        </StyledPaper>
+      </Box>
+    </Container>
         
       )}
     </div>

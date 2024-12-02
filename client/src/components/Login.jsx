@@ -1,59 +1,146 @@
-import React, { useContext, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Link } from 'react-router-dom';
+import React, { useContext, useState } from 'react';
+import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import { apiService } from '../services/PostsService';
 import AuthContext from './AuthContext';
+import {
+  Box,
+  Button,
+  TextField,
+  Typography,
+  Paper,
+  Container,
+  Link,
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  backgroundColor: 'rgba(17, 17, 18, 0.95)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '16px',
+  padding: theme.spacing(4),
+  color: 'white',
+  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
+}));
+
+const StyledTextField = styled(TextField)({
+  '& .MuiOutlinedInput-root': {
+    '& fieldset': {
+      borderColor: 'rgba(255, 255, 255, 0.23)',
+    },
+    '&:hover fieldset': {
+      borderColor: 'rgba(255, 255, 255, 0.5)',
+    },
+    '&.Mui-focused fieldset': {
+      borderColor: '#2196f3',
+    },
+  },
+  '& .MuiInputLabel-root': {
+    color: 'rgba(255, 255, 255, 0.7)',
+  },
+  '& .MuiInputBase-input': {
+    color: 'white',
+  },
+});
 
 function Login() {
-    const {login} = useContext(AuthContext)
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const navigate = useNavigate(); // lo voy a tener que usar para volver al home una vez se logue de manera exitosa.
+  const { login } = useContext(AuthContext);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
-    const handleSubmit = async (event) => {
-      event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
-      try {
-          const response = await apiService.PostData('/api/login', { email, password });
-          console.log('creo q conecto bien', response)
-          const { token } = response.data;
+    try {
+      const response = await apiService.PostData('/api/login', { email, password });
+      console.log('Login successful', response);
+      const { token } = response.data;
 
-          // Store the token in local storage or a cookie, depending on your preference
-          localStorage.setItem('token', token);
-          console.log('seteo el token: ', token)
-        login(token)
-          // Redirect to the home page
-          console.log(token)
-          
-          navigate('/');
-      } catch (error) {
-          console.error('Login failed:', error);
-          // Handle the error, e.g., show an error message to the user
-      }
-  }
+      localStorage.setItem('token', token);
+      login(token);
+      console.log(token);
+
+      navigate('/');
+    } catch (error) {
+      console.error('Login failed:', error);
+    }
+  };
+
   return (
-      <div>
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label>
-                  Email:
-                  <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-              </label>
-              <label>
-                  Password:
-                  <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-              </label>
-              <button type="submit">Login</button>
-            </div>
-            <div>
-              <p>dummy user: feli@feli, dummy password: 123</p>
-            </div>
-            <div>
-                <p>No tienes una cuenta?</p>
-                <Link to='/signup'>Signup</Link>
-            </div>
-          </form>
-      </div>
+    <Container component="main" maxWidth="xs">
+      <Box
+        sx={{
+          marginTop: 8,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+        }}
+      >
+        <StyledPaper elevation={3}>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              p: 3,
+            }}
+          >
+            <LockOutlinedIcon sx={{ fontSize: 40, color: '#2196f3', mb: 2 }} />
+            <Typography component="h1" variant="h5" gutterBottom>
+              Login
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <StyledTextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <StyledTextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Login
+              </Button>
+              <Typography variant="body2" color="text.secondary" align="center">
+                Dummy user: feli@feli, dummy password: 123
+              </Typography>
+              <Box sx={{ mt: 2, textAlign: 'center' }}>
+                <Typography variant="body2" color="text.secondary">
+                  Don't have an account?{' '}
+                  <Link component={RouterLink} to="/signup" color="primary">
+                    Sign Up
+                  </Link>
+                </Typography>
+              </Box>
+            </Box>
+          </Box>
+        </StyledPaper>
+      </Box>
+    </Container>
   );
 }
-export default Login
+
+export default Login;
+
