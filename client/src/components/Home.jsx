@@ -50,7 +50,9 @@ function Home ()  {
         </div>
       ):
       (
-        login_memo
+        <div className='home-container'>
+        {login_memo}
+        </div>
       )}
     </div>
   );
