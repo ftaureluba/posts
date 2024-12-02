@@ -123,11 +123,11 @@ function Login() {
               >
                 Login
               </Button>
-              <Typography variant="body2" color="text.secondary" align="center">
+              <Typography variant="body2" color="white" align="center">
                 Dummy user: feli@feli, dummy password: 123
               </Typography>
               <Box sx={{ mt: 2, textAlign: 'center' }}>
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="white">
                   Don't have an account?{' '}
                   <Link component={RouterLink} to="/signup" color="primary">
                     Sign Up

@@ -2,7 +2,7 @@ import React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import { Button, Typography, Box, Divider } from '@mui/material';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 
 const Rutina = ({ rutina }) => {
@@ -19,6 +19,7 @@ const Rutina = ({ rutina }) => {
       sx={{
         maxWidth: 345,
         height: '100%',
+        minHeight: '400px',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'space-between',
@@ -34,7 +35,13 @@ const Rutina = ({ rutina }) => {
         },
       }}
     >
-      <CardContent sx={{ p: 3 }}>
+      <CardContent sx={{ 
+        p: 3,
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between'
+      }}>
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
           <FitnessCenterIcon sx={{ color: '#2196f3', mr: 1 }} />
           <Typography
@@ -62,7 +69,7 @@ const Rutina = ({ rutina }) => {
 
         <Divider sx={{ my: 2, backgroundColor: 'rgba(255, 255, 255, 0.1)' }} />
 
-        <Box sx={{ mb: 3 }}>
+        <Box sx={{ mb: 3, flex: 1, minHeight: '150px' }}>
           {ejercicios.map((ejercicio, index) => (
             <Typography
               key={index}
@@ -108,3 +115,4 @@ const Rutina = ({ rutina }) => {
 };
 
 export default Rutina;
+

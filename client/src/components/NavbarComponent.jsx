@@ -42,6 +42,7 @@ function NavbarComponent() {
   const handleMenuItemClick = (setting) => {
     if (setting === 'Logout') {
       logout(); // Call the logout function
+      navigate('/')
     }
     handleCloseUserMenu();
   };
