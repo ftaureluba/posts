@@ -8,7 +8,9 @@ import {
   ListItemText, 
   Divider, 
   Paper, 
-  CircularProgress
+  CircularProgress,
+  useTheme,
+  useMediaQuery
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
@@ -25,6 +27,8 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   '&:hover': {
     transform: 'translateY(-4px)',
     boxShadow: '0 12px 32px rgba(0, 0, 0, 0.3)',
+  },[theme.breakpoints.down('md')]: {
+    padding: theme.spacing(2),
   },
 }));
 
@@ -32,12 +36,14 @@ const WorkoutHistory = () => {
   const [workouts, setWorkouts] = useState([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
+  const theme = useTheme()
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
 
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
         const response = await apiService.fetchData('/api/workouts');
-        setWorkouts(response.data);
+        setWorkouts(response.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
       } catch (err) {
         setError('Error fetching workouts');
       } finally {
@@ -57,7 +63,7 @@ const WorkoutHistory = () => {
   }
 
   return (
-    <Box sx={{ maxWidth: 800, margin: '0 auto', padding: 3 }}>
+    <Box sx={{ maxWidth: 800, margin: '0 auto', padding: isMobile ? 2 : 3 }}>
       <Typography variant="h4" component="h1" gutterBottom sx={{ color: 'white', fontWeight: 600, display: 'flex', alignItems: 'center' }}>
         <FitnessCenterIcon sx={{ mr: 1, color: '#FFFFFF' }} />
         Your Workout History
@@ -70,7 +76,7 @@ const WorkoutHistory = () => {
       {workouts.length > 0 ? (
         <List>
           {workouts.map((workout) => (
-            <ListItem key={workout._id} sx={{ mb: 3, p: 0 }}>
+            <ListItem key={workout._id} sx={{ mb: isMobile ? 2 : 3, p: 0 }}>
               <StyledPaper elevation={3}>
                 <Typography variant="h6" sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
                   <CalendarTodayIcon sx={{ mr: 1, color: '#2196f3' }} />
