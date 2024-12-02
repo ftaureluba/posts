@@ -110,10 +110,7 @@ function NavbarComponent() {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (/*
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textAlign="center">{setting}</Typography>
-                  </MenuItem>*/
+                {settings.map((setting) => (
                   <MenuItem key={setting} onClick={() => handleMenuItemClick(setting)}>
                     <Typography textAlign="center">{setting}</Typography>
                   </MenuItem>

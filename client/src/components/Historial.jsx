@@ -66,7 +66,7 @@ const WorkoutHistory = () => {
     <Box sx={{ maxWidth: 800, margin: '0 auto', padding: isMobile ? 2 : 3 }}>
       <Typography variant="h4" component="h1" gutterBottom sx={{ color: 'white', fontWeight: 600, display: 'flex', alignItems: 'center' }}>
         <FitnessCenterIcon sx={{ mr: 1, color: '#FFFFFF' }} />
-        Your Workout History
+        Tu historial de entrenamientos:
       </Typography>
       {error && (
         <Typography color="error" sx={{ mb: 2 }}>
@@ -120,7 +120,7 @@ const WorkoutHistory = () => {
           ))}
         </List>
       ) : (
-        <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>No workouts found.</Typography>
+        <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>No se encontraron entrenamientos.</Typography>
       )}
     </Box>
   );

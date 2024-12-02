@@ -118,7 +118,7 @@ function RutinaDetail({ejercicios = []}) {
           px: 4,
         }}
       >
-        Submit All
+        Terminar Entrenamiento
       </Button>
     </Box>
   );

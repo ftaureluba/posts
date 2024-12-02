@@ -140,11 +140,11 @@ function Signup() {
       case 0:
         return (
           <Box>
-            <Typography variant="h6" gutterBottom>Personal Information</Typography>
+            <Typography variant="h6" gutterBottom>Informacion Personal</Typography>
             <StyledTextField
               fullWidth
               margin="normal"
-              label="First Name"
+              label="Nombre"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               required
@@ -152,7 +152,7 @@ function Signup() {
             <StyledTextField
               fullWidth
               margin="normal"
-              label="Last Name"
+              label="Apellido"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               required
@@ -160,7 +160,7 @@ function Signup() {
             <StyledTextField
               fullWidth
               margin="normal"
-              label="Age"
+              label="Edad"
               type="number"
               value={age}
               onChange={(e) => setAge(e.target.value)}
@@ -169,7 +169,7 @@ function Signup() {
             <StyledTextField
               fullWidth
               margin="normal"
-              label="Weight (kg)"
+              label="Peso (kg)"
               type="number"
               value={weight}
               onChange={(e) => setWeight(e.target.value)}
@@ -181,7 +181,7 @@ function Signup() {
       case 1:
         return (
           <Box>
-            <Typography variant="h6" gutterBottom>Fitness Goals</Typography>
+            <Typography variant="h6" gutterBottom>Objetivos</Typography>
             <StyledSelect
               fullWidth
               margin="normal"
@@ -190,10 +190,10 @@ function Signup() {
               required
               displayEmpty
             >
-              <MenuItem value="" disabled>Select Training Frequency</MenuItem>
-              <MenuItem value="1-2">1-2 times per week</MenuItem>
-              <MenuItem value="3-4">3-4 times per week</MenuItem>
-              <MenuItem value="5-7">5-7 times per week</MenuItem>
+              <MenuItem value="" disabled>Frecuencia de entrenamiento:</MenuItem>
+              <MenuItem value="1-2">1-2 veces por semana</MenuItem>
+              <MenuItem value="3-4">3-4 veces por semana</MenuItem>
+              <MenuItem value="5-7">5-7 veces por semana</MenuItem>
             </StyledSelect>
             <StyledSelect
               fullWidth
@@ -204,11 +204,11 @@ function Signup() {
               displayEmpty
               sx={{ mt: 2 }}
             >
-              <MenuItem value="" disabled>Select Gym Objective</MenuItem>
-              <MenuItem value="muscle-gain">Muscle Gain</MenuItem>
-              <MenuItem value="weight-loss">Weight Loss</MenuItem>
-              <MenuItem value="endurance">Improve Endurance</MenuItem>
-              <MenuItem value="general-fitness">General Fitness</MenuItem>
+              <MenuItem value="" disabled>Objetivo</MenuItem>
+              <MenuItem value="muscle-gain">Ganancia Muscular</MenuItem>
+              <MenuItem value="weight-loss">Perdida de peso</MenuItem>
+              <MenuItem value="endurance">Mejorar la resistencia</MenuItem>
+              <MenuItem value="general-fitness">Salud general</MenuItem>
             </StyledSelect>
           </Box>
         );
@@ -216,7 +216,7 @@ function Signup() {
       case 2:
         return (
           <Box>
-            <Typography variant="h6" gutterBottom>Account Details</Typography>
+            <Typography variant="h6" gutterBottom>Detalles de la cuenta</Typography>
             <StyledTextField
               fullWidth
               margin="normal"
@@ -257,20 +257,20 @@ function Signup() {
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Stepper activeStep={step} alternativeLabel sx={{ mb: 4 }}>
             <Step>
-              <StepLabel sx={{ color: 'white' }}>Personal Info</StepLabel>
+              <StepLabel sx={{ color: 'white' }}>Informacion Personal</StepLabel>
             </Step>
             <Step>
-              <StepLabel sx={{ color: 'white' }}>Fitness Goals</StepLabel>
+              <StepLabel sx={{ color: 'white' }}>Objetivos</StepLabel>
             </Step>
             <Step>
-              <StepLabel sx={{ color: 'white' }}>Account Details</StepLabel>
+              <StepLabel sx={{ color: 'white' }}>Detalles de la cuenta</StepLabel>
             </Step>
           </Stepper>
           {renderStep()}
           <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 3 }}>
             {step > 0 && (
               <Button onClick={prevStep} variant="outlined" sx={{ color: 'white', borderColor: 'white' }}>
-                Previous
+                Anterior
               </Button>
             )}
             {step < 2 ? (
@@ -283,7 +283,7 @@ function Signup() {
                 }
                 sx={{ ml: 'auto' }}
               >
-                Next
+                Siguiente
               </Button>
             ) : (
               <Button 
