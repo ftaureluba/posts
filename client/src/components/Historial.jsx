@@ -1,10 +1,37 @@
 import React, { useEffect, useState } from 'react';
 import { apiService } from '../services/PostsService';
-import '../styles/WorkoutHistory.css';
+import { 
+  Box, 
+  Typography, 
+  List, 
+  ListItem, 
+  ListItemText, 
+  Divider, 
+  Paper, 
+  CircularProgress
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+
+const StyledPaper = styled(Paper)(({ theme }) => ({
+  backgroundColor: 'rgba(17, 17, 18, 0.95)',
+  backdropFilter: 'blur(10px)',
+  borderRadius: '16px',
+  padding: theme.spacing(3),
+  color: 'white',
+  boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)',
+  transition: 'transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out',
+  '&:hover': {
+    transform: 'translateY(-4px)',
+    boxShadow: '0 12px 32px rgba(0, 0, 0, 0.3)',
+  },
+}));
 
 const WorkoutHistory = () => {
   const [workouts, setWorkouts] = useState([]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchWorkouts = async () => {
@@ -13,45 +40,83 @@ const WorkoutHistory = () => {
         setWorkouts(response.data);
       } catch (err) {
         setError('Error fetching workouts');
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchWorkouts();
   }, []);
-  console.log(workouts)
-  console.log('pero me cago')
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" height="100vh">
+        <CircularProgress color="primary" />
+      </Box>
+    );
+  }
+
   return (
-    <div className="workout-history">
-      <h2>Your Workout History</h2>
-      {error && <p className="error">{error}</p>}
-      {workouts.length > 0 ? (
-        <ul className="workout-list">
-          {workouts.map((workout) => (
-            <li key={workout._id} className="workout-item">
-              <h3>{new Date(workout.date).toLocaleDateString()}</h3>
-              
-              <ul>
-                {workout.exercises.map((exercise, index) => (
-                  
-                  <li key={index}>
-                    <strong>{exercise.exerciseName}</strong>
-                    <ul>
-                      {exercise.sets.map((set, setIndex) => (
-                        <li key={setIndex}>
-                          {set.reps} reps x {set.weight} kg
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No workouts found.</p>
+    <Box sx={{ maxWidth: 800, margin: '0 auto', padding: 3 }}>
+      <Typography variant="h4" component="h1" gutterBottom sx={{ color: 'white', fontWeight: 600, display: 'flex', alignItems: 'center' }}>
+        <FitnessCenterIcon sx={{ mr: 1, color: '#2196f3' }} />
+        Your Workout History
+      </Typography>
+      {error && (
+        <Typography color="error" sx={{ mb: 2 }}>
+          {error}
+        </Typography>
       )}
-    </div>
+      {workouts.length > 0 ? (
+        <List>
+          {workouts.map((workout) => (
+            <ListItem key={workout._id} sx={{ mb: 3, p: 0 }}>
+              <StyledPaper elevation={3}>
+                <Typography variant="h6" sx={{ mb: 2, display: 'flex', alignItems: 'center' }}>
+                  <CalendarTodayIcon sx={{ mr: 1, color: '#2196f3' }} />
+                  {new Date(workout.date).toLocaleDateString()}
+                </Typography>
+                <List disablePadding>
+                  {workout.exercises.map((exercise, index) => (
+                    <React.Fragment key={index}>
+                      <ListItem sx={{ py: 1, px: 0 }}>
+                        <ListItemText
+                          primary={
+                            <Typography variant="subtitle1" sx={{ color: '#2196f3', fontWeight: 600 }}>
+                              {exercise.exerciseName}
+                            </Typography>
+                          }
+                          secondary={
+                            <List dense disablePadding>
+                              {exercise.sets.map((set, setIndex) => (
+                                <ListItem key={setIndex} sx={{ py: 0.5, px: 0 }}>
+                                  <ListItemText
+                                    primary={
+                                      <Typography variant="body2" sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>
+                                        {set.reps} reps x {set.weight} kg
+                                      </Typography>
+                                    }
+                                  />
+                                </ListItem>
+                              ))}
+                            </List>
+                          }
+                        />
+                      </ListItem>
+                      {index < workout.exercises.length - 1 && (
+                        <Divider sx={{ my: 1, backgroundColor: 'rgba(255, 255, 255, 0.1)' }} />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </List>
+              </StyledPaper>
+            </ListItem>
+          ))}
+        </List>
+      ) : (
+        <Typography sx={{ color: 'rgba(255, 255, 255, 0.7)' }}>No workouts found.</Typography>
+      )}
+    </Box>
   );
 };
 
