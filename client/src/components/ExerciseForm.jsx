@@ -1,33 +1,50 @@
 import React from 'react';
+import { Box, TextField, IconButton } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
 
-import styles from '../styles/exerciseForm.module.css';
-function ExerciseForm({ sets, handleChange, addSet }) {
+const ExerciseForm = ({ sets, handleChange, addSet }) => {
   return (
-    <div>
+    <Box>
       {sets.map((set, setIndex) => (
-        <div key={setIndex} style = {{ display: 'flex', marginBottom : '2px'}}>
-          
-          <input
-            type="number"
+        <Box key={setIndex} sx={{ display: 'flex', gap: 2, mb: 2 }}>
+          <TextField
             name="reps"
-            placeholder="Reps"
+            label="Reps"
+            type="number"
             value={set.reps}
             onChange={(e) => handleChange(setIndex, e)}
-            className={styles.inputField}
+            variant="outlined"
+            size="small"
+            InputProps={{
+              sx: { color: 'white', '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.3)' } }
+            }}
+            InputLabelProps={{
+              sx: { color: 'rgba(255, 255, 255, 0.7)' }
+            }}
           />
-          <input
-            type="number"
+          <TextField
             name="weight"
-            placeholder="Weight"
+            label="Weight (kg)"
+            type="number"
             value={set.weight}
             onChange={(e) => handleChange(setIndex, e)}
-            className={styles.inputField}
+            variant="outlined"
+            size="small"
+            InputProps={{
+              sx: { color: 'white', '& .MuiOutlinedInput-notchedOutline': { borderColor: 'rgba(255, 255, 255, 0.3)' } }
+            }}
+            InputLabelProps={{
+              sx: { color: 'rgba(255, 255, 255, 0.7)' }
+            }}
           />
-        </div>
+        </Box>
       ))}
-      <button type="button" onClick={addSet} className={styles.addButton}>Add Set</button>
-    </div>
+      <IconButton onClick={addSet} sx={{ color: '#2196f3', mt: 1 }}>
+        <AddIcon />
+      </IconButton>
+    </Box>
   );
-}
+};
 
 export default ExerciseForm;
+

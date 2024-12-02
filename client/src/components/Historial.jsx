@@ -59,7 +59,7 @@ const WorkoutHistory = () => {
   return (
     <Box sx={{ maxWidth: 800, margin: '0 auto', padding: 3 }}>
       <Typography variant="h4" component="h1" gutterBottom sx={{ color: 'white', fontWeight: 600, display: 'flex', alignItems: 'center' }}>
-        <FitnessCenterIcon sx={{ mr: 1, color: '#2196f3' }} />
+        <FitnessCenterIcon sx={{ mr: 1, color: '#FFFFFF' }} />
         Your Workout History
       </Typography>
       {error && (
