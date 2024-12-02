@@ -128,7 +128,7 @@ function Login() {
               </Typography>
               <Box sx={{ mt: 2, textAlign: 'center' }}>
                 <Typography variant="body2" color="white">
-                  Don't have an account?{' '}
+                  No tienes una cuenta?{' '}
                   <Link component={RouterLink} to="/signup" color="primary">
                     Sign Up
                   </Link>
