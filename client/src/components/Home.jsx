@@ -36,11 +36,6 @@ function Home ()  {
     ))
   }, [rutinas])
 
-  const login_memo = useMemo(() => {
-    <div> 
-      <h1>Por favor, <button onClick={ () => handleNavigate('/login')}>inicie sesion</button> o <button onClick={ () => handleNavigate('/signup')}>crea una cuenta</button> para continuar </h1>
-    </div>
-  }, [handleNavigate])
   return (
     
     <div className='home-container'>
@@ -51,7 +46,11 @@ function Home ()  {
       ):
       (
         
-        {login_memo}
+        <div className='home-container'> 
+          <h1>
+            Por favor, <button onClick={ () => handleNavigate('/login')}>inicie sesion</button> o <button onClick={ () => handleNavigate('/signup')}>crea una cuenta</button> para continuar 
+          </h1>
+        </div>
         
       )}
     </div>
