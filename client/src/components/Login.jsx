@@ -46,6 +46,9 @@ function Login() {
               <button type="submit">Login</button>
             </div>
             <div>
+              <p>dummy user: feli@feli, dummy password: 123</p>
+            </div>
+            <div>
                 <p>No tienes una cuenta?</p>
                 <Link to='/signup'>Signup</Link>
             </div>

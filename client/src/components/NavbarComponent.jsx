@@ -74,7 +74,7 @@ function NavbarComponent() {
 
           
           
-          {isLoggedIn ? (
+          {isLoggedIn && (
             <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between' }}>
               <Box sx={ {display: 'flex' /*{ flexGrow: 1, display: { xs: 'none', md: 'flex' } */}}>
               {pages.map((page) => (
@@ -119,7 +119,7 @@ function NavbarComponent() {
                 ))}
               </Menu>
             </Box>)
-            : <Link to='/Login' >Log in</Link>
+          
           }
         </Toolbar>
       </Container>
