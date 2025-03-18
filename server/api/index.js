@@ -1,5 +1,5 @@
 import dotenv from 'dotenv';
-dotenv.config({ path: './src/.env' });
+dotenv.config({ path: '../src/.env' });
 
 import express from 'express';
 import bodyParser from 'body-parser';
@@ -51,7 +51,16 @@ const password = process.env.PASSWORD;
 //manejar conexiones a mongodb
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://taurel-fitness-app.vercel.app');
+  const allowedOrigins = [
+    'https://taurel-fitness-app.vercel.app',
+    'http://localhost:3000' 
+  ];
+  const origin = req.headers.origin;
+
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
+
   res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE');
   res.header('Access-Control-Allow-Headers', 'Content-Type,Authorization,auth-token');
   console.log(`Request received: ${req.method} ${req.url}`);
@@ -114,17 +123,7 @@ app.get("/api/posts", (req, res) => {
             }
           }
         ]).toArray();
-        /*
-        const rutinas = await Rutina.aggregate([
-          {
-            $lookup: {
-              from: 'exercisestatics', // The name of the referenced collection
-              localField: 'ejercicios',
-              foreignField: '_id',
-              as: 'ejercicios'
-            }
-          }
-        ]);*/
+        console.log("Rutinas found: ", rutinas)
         return rutinas;
       } catch (error) {
         console.error('Error finding rutinas:', error);
@@ -297,35 +296,44 @@ app.get('/api/exercises', async (req, res) => {
 
 app.post('/api/login', async (req, res) => {
   try {
-    const {mongoClient} = await mongoHandler();
-    console.log('paso la conexion')
-    const db = mongoClient.db("Fitness-App")
-    const collection = db.collection("users")
+    const { mongoClient } = await mongoHandler();
+    console.log('Connected to MongoDB');
+    
+    const db = mongoClient.db("Fitness-App");
+    const collection = db.collection("users");
+    
+    console.log('Fetching user with email:', req.body.email);
     const users = await collection.aggregate([
-      {$match: {email: req.body.email}}
+      { $match: { email: req.body.email } }
     ]).toArray();
-    const user = users[0]
-    console.log('pudo encontrar el user? ')
+    
+    const user = users[0];
+    console.log('User found:', user);
+    
     if (!user) {
+      console.log('User not found');
       return res.status(400).send('User not found');
     }
-    console.log('si. Esta verificado?')
+    
     if (!user.isVerified) {
+      console.log('Account not verified');
       return res.status(401).send('Account not verified');
     }
-    console.log('si, encuentra la contrasena?')
+    
     const isPasswordValid = await bcrypt.compare(req.body.password, user.password);
     if (!isPasswordValid) {
+      console.log('Invalid email or password');
       return res.status(400).send('Invalid email or password');
     }
-    console.log('contrasena valida')
-    // Generate a JWT token
+    
     const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET_KEY);
-    console.log('token valido')
-    res.header('auth-token', token).send({token});
-    console.log('token enviado')
+    console.log('Token generated:', token);
+    
+    res.header('auth-token', token).send({ token });
+    console.log('Token sent');
   } catch (error) {
-    res.status(500).send('Error logging in');
+    console.error('Error logging in:', error);
+    res.status(500).send(error);
   }
 });
 
