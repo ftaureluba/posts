@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const Schema = mongoose.Schema;
 
@@ -72,10 +72,10 @@ const rutinaSchema = new Schema({
 
 const Rutina = mongoose.model('Rutina', rutinaSchema);
 
-module.exports = {
-    mongoDBURL: process.env.mongoDBURL, //"mongodb+srv://admin:admin@fitness-app.wqetgeo.mongodb.net/Fitness-App?retryWrites=true&w=majority&appName=Fitness-App",
-  Rutina: Rutina,
-  Workout: Workout,
-  User: User,
-  exerciseStatic: exerciseStatic
+export const mongoDBURL = process.env.mongoDBURL; //"mongodb+srv://admin:admin@fitness-app.wqetgeo.mongodb.net/Fitness-App?retryWrites=true&w=majority&appName=Fitness-App";
+export const config = {
+  Rutina,
+  Workout,
+  User,
+  exerciseStatic
 };

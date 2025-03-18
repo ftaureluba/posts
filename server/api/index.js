@@ -1,21 +1,25 @@
-require('dotenv').config({path: './src/.env'});
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const morgan = require('morgan');
-const config = require('./config'); 
-const mongoose = require('mongoose');
-const app = express();
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const fs = require('fs')
-const nodemailer = require('nodemailer');
-const mongodb = require('mongodb')
-import { mongoHandler } from './connectToDatabase';
+import dotenv from 'dotenv';
+dotenv.config({ path: './src/.env' });
 
-  //origin: 'https://taurel-fitness-app.vercel.app', // Specify your frontend URL
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import morgan from 'morgan';
+import mongoose from 'mongoose';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import fs from 'fs';
+import nodemailer from 'nodemailer';
+import mongodb from 'mongodb';
+import crypto from 'crypto';
+import { mongoHandler } from './connectToDatabase.js';
+import {config} from './config.js';
+
+const app = express();
+
 app.use(morgan('combined'));
 app.use(bodyParser.json());
+
 const corsOptions = {
   origin: '*',
   optionsSuccessStatus: 200,
@@ -29,11 +33,10 @@ app.use(cors(corsOptions));
 // Handle pre-flight requests
 //app.options('*', cors(corsOptions));
 
-const crypto = require('crypto');
-
 function generateVerificationToken() {
   return crypto.randomBytes(20).toString('hex');
 }
+
 const User = config.User;
 const Rutina = config.Rutina;
 const Workout = config.Workout;
@@ -46,8 +49,6 @@ const password = process.env.PASSWORD;
 //dotenv.config()
 
 //manejar conexiones a mongodb
-
-
 
 app.use((req, res, next) => {
   res.header('Access-Control-Allow-Origin', 'https://taurel-fitness-app.vercel.app');
