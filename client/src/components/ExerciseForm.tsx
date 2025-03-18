@@ -2,10 +2,14 @@ import React from 'react';
 import { Box, TextField, IconButton } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 
-const ExerciseForm = ({ sets, handleChange, addSet }) => {
+const ExerciseForm = ({
+  sets,
+  handleChange,
+  addSet
+}: any) => {
   return (
     <Box>
-      {sets.map((set, setIndex) => (
+      {sets.map((set: any, setIndex: any) => (
         <Box key={setIndex} sx={{ display: 'flex', gap: 2, mb: 2 }}>
           <TextField
             name="reps"

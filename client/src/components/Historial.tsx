@@ -27,23 +27,40 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   '&:hover': {
     transform: 'translateY(-4px)',
     boxShadow: '0 12px 32px rgba(0, 0, 0, 0.3)',
-  },[theme.breakpoints.down('md')]: {
+  },
+  [theme.breakpoints.down('md')]: {
     padding: theme.spacing(2),
   },
 }));
 
-const WorkoutHistory = () => {
-  const [workouts, setWorkouts] = useState([]);
-  const [error, setError] = useState('');
-  const [loading, setLoading] = useState(true);
-  const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+interface Set {
+  reps: number;
+  weight: number;
+}
+
+interface Exercise {
+  exerciseName: string;
+  sets: Set[];
+}
+
+interface Workout {
+  _id: string;
+  date: string;
+  exercises: Exercise[];
+}
+
+const WorkoutHistory: React.FC = () => {
+  const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [error, setError] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
 
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
         const response = await apiService.fetchData('/api/workouts');
-        setWorkouts(response.data.sort((a, b) => new Date(b.date) - new Date(a.date)));
+        setWorkouts(response.data.sort((a: Workout, b: Workout) => new Date(b.date).getTime() - new Date(a.date).getTime()));
       } catch (err) {
         setError('Error fetching workouts');
       } finally {

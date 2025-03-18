@@ -1,9 +1,15 @@
 // AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
 
-const AuthContext = createContext();
+const AuthContext = createContext({
+  isLoggedIn: false,
+  login: (token: string) => {},
+  logout: () => {}
+});
 
-export const AuthProvider = ({ children }) => {
+export const AuthProvider = ({
+  children
+}: any) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
@@ -11,7 +17,7 @@ export const AuthProvider = ({ children }) => {
     setIsLoggedIn(!!token);
   }, []);
 
-  const login = (token) => {
+  const login = (token: any) => {
     localStorage.setItem('auth-token', token);
     setIsLoggedIn(true);
   };

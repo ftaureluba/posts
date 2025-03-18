@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import ExerciseForm from './ExerciseForm';
 import { apiService } from '../services/PostsService';
@@ -21,17 +21,46 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
   marginBottom: theme.spacing(3),
 }));
 
-function RutinaDetail({ejercicios = []}) {
-  //const exercisesArray = ejercicios.props
+interface Exercise {
+  _id: string;
+  name: string;
+}
 
-  
-  const [workoutData, setWorkoutData] = useState(
+interface Set {
+  reps: string;
+  weight: string;
+}
+
+interface WorkoutData {
+  exerciseId: string;
+  name: string;
+  sets: Set[];
+}
+
+interface DataToSend {
+  date: Date;
+  exercises: {
+    exerciseId: string;
+    sets: {
+      reps: number;
+      weight: number;
+    }[];
+  }[];
+}
+
+interface RutinaDetailProps {
+  ejercicios: Exercise[];
+}
+
+function RutinaDetail({ ejercicios = [] }: RutinaDetailProps) {
+  const [workoutData, setWorkoutData] = useState<WorkoutData[]>(
     ejercicios.map((exercise) => ({
-      exercise: exercise,
+      exerciseId: exercise._id,
+      name: exercise.name,
       sets: [{ reps: '', weight: '' }]
     }))
   );
-  // Function to handle changes to any form input
+
   useEffect(() => {
     if (ejercicios.length > 0) {
       setWorkoutData(
@@ -43,15 +72,16 @@ function RutinaDetail({ejercicios = []}) {
       );
     }
   }, [ejercicios]);
-  const handleChange = (exerciseIndex, setIndex, e) => {
+
+  const handleChange = (exerciseIndex: number, setIndex: number, e: React.ChangeEvent<HTMLInputElement>) => {
     setWorkoutData((prevWorkoutData) => {
       const newWorkoutData = [...prevWorkoutData];
-      newWorkoutData[exerciseIndex].sets[setIndex][e.target.name] = e.target.value;
+      newWorkoutData[exerciseIndex].sets[setIndex][e.target.name as keyof Set] = e.target.value;
       return newWorkoutData;
     });
   };
 
-  const addSet = (exerciseIndex) => {
+  const addSet = (exerciseIndex: number) => {
     setWorkoutData((prevWorkoutData) => {
       const newWorkoutData = [...prevWorkoutData];
       newWorkoutData[exerciseIndex].sets.push({ reps: '', weight: '' });
@@ -60,26 +90,25 @@ function RutinaDetail({ejercicios = []}) {
     });
   };
 
-  // Function to handle form submission
-  const handleSubmitAll = async (e) => {
+  const handleSubmitAll = async (e: React.FormEvent) => {
     e.preventDefault();
-    const token = localStorage.getItem('token')
+    const token = localStorage.getItem('token');
 
     try {
-      if (token){ //CHEQUEAR QUE LA LOGICA DEL TOKEN REALMENTE PUEDA FUNCIONAR BIEN, ES PEDIRLE SI EXISTE EL TOKEN PARA VER EL LOGIN CREO
-      const dataToSend = {
-        date: new Date(),
-        exercises: workoutData.map((workout) => ({
-            exerciseId: workout.exerciseId,
-            
-            sets: workout.sets.map((set) => ({
-                reps: Number(set.reps),
-                weight: Number(set.weight)
-            }))
-        }))
-    };
-    const response = await apiService.PostData('/api/workouts', dataToSend);
-    console.log(response.data);}
+      if (token) {
+        const dataToSend: DataToSend = {
+          date: new Date(),
+          exercises: workoutData.map((workout) => ({
+              exerciseId: workout.exerciseId,
+              sets: workout.sets.map((set) => ({
+                  reps: Number(set.reps),
+                  weight: Number(set.weight)
+              }))
+          }))
+        };
+        const response = await apiService.PostData('/api/workouts', dataToSend);
+        console.log(response.data);
+      }
     } catch (error) {
       console.error('Error submitting workouts:', error);
     }
@@ -98,7 +127,7 @@ function RutinaDetail({ejercicios = []}) {
           </Typography>
           <ExerciseForm
             sets={workout.sets}
-            handleChange={(setIndex, e) => handleChange(exerciseIndex, setIndex, e)}
+            handleChange={(setIndex: number, e: React.ChangeEvent<HTMLInputElement>) => handleChange(exerciseIndex, setIndex, e)}
             addSet={() => addSet(exerciseIndex)}
           />
         </StyledPaper>
@@ -124,122 +153,4 @@ function RutinaDetail({ejercicios = []}) {
   );
 }
 
-export default RutinaDetail
-
-
-
-/*
-<h2>{ejercicio}</h2>
-      <form>
-      <input
-        type="number"
-        name="sets"
-        placeholder="Sets"
-        value={formData.sets}
-        onChange={(e) => handleChange(index, e)}
-      />
-      <input
-        type="number"
-        name="reps"
-        placeholder="Reps"
-        value={formData.reps}
-        onChange={(e) => handleChange(index, e)}
-      />
-      <input
-        type="number"
-        name="weight"
-        placeholder="Weight"
-        value={formData.weight}
-        onChange={(e) => handleChange(index, e)}
-      />
-    </form>
-*/
-
-/*import React, { useState } from 'react';
-import axios from 'axios';
-const FormEjercicios = ({ exercise, onChange, formData }) => {
-  return (
-    <form>
-      <input
-        type="number"
-        name="sets"
-        placeholder="Sets"
-        value={formData.sets}
-        onChange={onChange}
-      />
-      <input
-        type="number"
-        name="reps"
-        placeholder="Reps"
-        value={formData.reps}
-        onChange={onChange}
-      />
-      <input
-        type="number"
-        name="weight"
-        placeholder="Weight"
-        value={formData.weight}
-        onChange={onChange}
-      />
-    </form>
-  );
-};
-
-
-function RutinaDetail({ ejercicios }) {
-  // Initialize state to hold form data for each exercise
-  const ejerciciosArray = ejercicios.props
-  
-  const [formData, setFormData] = useState(
-    ejerciciosArray.map(() => ({ sets: '', reps: '', weight: '' }))
-  );
-
-  // Function to handle changes to any form input
-  const handleChange = (index, e) => {
-    const newFormData = [...formData];
-    newFormData[index] = {
-      ...newFormData[index],
-      [e.target.name]: e.target.value
-    };
-    setFormData(newFormData);
-  };
-
-  // Function to handle form submission
-  const handleSubmitAll = async (e) => {
-    e.preventDefault();
-    try {
-      // Map over the exercises and form data to create an array of promises
-      const promises = ejerciciosArray.map((exercise, index) =>
-        axios.post('/api/workouts', {
-          exercise,
-          ...formData[index]
-        })
-      );
-      // Wait for all promises to resolve
-      const responses = await Promise.all(promises);
-      console.log(responses.map(res => res.data));
-      // Optionally, clear the form after submission
-      setFormData(formData.map(() => ({ sets: '', reps: '', weight: '' })));
-    } catch (error) {
-      console.error('Error submitting workouts:', error);
-    }
-  };
-
-  return (
-    <div>
-      {ejerciciosArray.map((ejercicio, index) => (
-        <div key={index}>
-          <h2>{ejercicio}</h2>
-          <FormEjercicios
-            exercise={ejercicio}
-            formData={formData[index]}
-            onChange={(e) => handleChange(index, e)}
-          />
-        </div>
-      ))}
-      <button onClick={handleSubmitAll}>Submit All</button>
-    </div>
-  );
-}
-
-export default RutinaDetail;*/
+export default RutinaDetail;

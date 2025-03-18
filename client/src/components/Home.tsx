@@ -1,9 +1,8 @@
-
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState, useContext } from 'react';
 import Rutina from './Rutina';
 import { apiService } from '../services/PostsService';
 import '../styles/home.css';
-import {  useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import AuthContext from './AuthContext';
 import { Box, Typography, Link, Container, Paper } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -25,16 +24,21 @@ const StyledLink = styled(Link)(({ theme }) => ({
   },
 }));
 
-function Home ()  {
-  const [rutinas, setRutinas] = useState([]);
+interface Rutina {
+  _id: string;
+}
+
+const Home: React.FC = () => {
+  const [rutinas, setRutinas] = useState<Rutina[]>([]);
   const navigate = useNavigate();
-  const {isLoggedIn} = React.useContext(AuthContext);
-  const handleNavigate = (path) => {
-    navigate(path)
+  const { isLoggedIn } = useContext(AuthContext);
+
+  const handleNavigate = (path: string) => {
+    navigate(path);
   };
 
   useEffect(() => {
-    async function fetchRutinas ()  {
+    const fetchRutinas = async () => {
       try {
         const response = await apiService.fetchData('/api');
         const data = Array.isArray(response.data) ? response.data : [];
@@ -47,60 +51,57 @@ function Home ()  {
     fetchRutinas();
   }, []);
 
-  const rutinas_memo = useMemo(() => {
-    return rutinas.map(rutina => (
-      <div key={rutina._id} className='rutina-item'>
+  const rutinasMemo = useMemo(() => {
+    return rutinas.map((rutina) => (
+      <div key={rutina._id} className="rutina-item">
         <Rutina key={rutina._id} rutina={rutina} />
       </div>
-    ))
-  }, [rutinas])
+    ));
+  }, [rutinas]);
 
   return (
-    
-    <div className='home-container'>
+    <div className="home-container">
       {isLoggedIn ? (
-        <div className='home-container'>
-          {rutinas_memo}
+        <div className="home-container">
+          {rutinasMemo}
         </div>
-      ):
-      (
-        
+      ) : (
         <Container maxWidth="md">
-      <Box
-        sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <StyledPaper elevation={3}>
-          <Typography variant="h4" component="h1" gutterBottom align="center">
-            Por favor,{' '}
-            <StyledLink
-              component="span"
-              onClick={() => handleNavigate('/login')}
-              sx={{ cursor: 'pointer' }}
-            >
-              inicie sesión
-            </StyledLink>{' '}
-            o{' '}
-            <StyledLink
-              component="span"
-              onClick={() => handleNavigate('/signup')}
-              sx={{ cursor: 'pointer' }}
-            >
-              cree una cuenta
-            </StyledLink>{' '}
-            para continuar
-          </Typography>
-        </StyledPaper>
-      </Box>
-    </Container>
-        
+          <Box
+            sx={{
+              minHeight: '100vh',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <StyledPaper elevation={3}>
+              <Typography variant="h4" component="h1" gutterBottom align="center">
+                Por favor,{' '}
+                <StyledLink
+                  as="span"
+                  onClick={() => handleNavigate('/login')}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  inicie sesión
+                </StyledLink>{' '}
+                o{' '}
+                <StyledLink
+                  as="span"
+                  onClick={() => handleNavigate('/signup')}
+                  sx={{ cursor: 'pointer' }}
+                >
+                  cree una cuenta
+                </StyledLink>{' '}
+                para continuar
+              </Typography>
+            </StyledPaper>
+          </Box>
+        </Container>
       )}
     </div>
   );
 };
-export default Home
+
+export default Home;

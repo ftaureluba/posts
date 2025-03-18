@@ -43,10 +43,10 @@ apiInstance.interceptors.request.use(
 );
 
 const apiService = {
-    fetchData(endpoint) {
+    fetchData(endpoint: any) {
         return apiInstance.get(endpoint);
     },
-    PostData(endpoint, data) {
+    PostData(endpoint: any, data: any) {
         return apiInstance.post(endpoint, data);
     }
 };

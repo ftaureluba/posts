@@ -5,12 +5,14 @@ import { Button, Typography, Box, Divider } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 
-const Rutina = ({ rutina }) => {
+const Rutina = ({
+  rutina
+}: any) => {
   const rutinaID = rutina._id.toString();
   const ejercicios = rutina.ejercicios;
   const navigate = useNavigate();
   
-  const handleNavigate = (path) => {
+  const handleNavigate = (path: any) => {
     navigate(path);
   };
 
@@ -70,7 +72,7 @@ const Rutina = ({ rutina }) => {
         <Divider sx={{ my: 2, backgroundColor: 'rgba(255, 255, 255, 0.1)' }} />
 
         <Box sx={{ mb: 3, flex: 1, minHeight: '150px' }}>
-          {ejercicios.map((ejercicio, index) => (
+          {ejercicios.map((ejercicio: any, index: any) => (
             <Typography
               key={index}
               variant="body2"

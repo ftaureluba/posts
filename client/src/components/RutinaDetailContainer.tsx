@@ -36,7 +36,6 @@ function RutinaDetailContainer() {
       }, [fetchEjercicios]);
     return (
         <div className={styles.container}>
-            {console.log(ejercicios)}
         <RutinaDetail ejercicios = {ejercicios}/>
         </div>
   )

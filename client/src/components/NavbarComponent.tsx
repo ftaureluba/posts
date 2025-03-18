@@ -19,18 +19,15 @@ const pages = [
 ];
 const settings = ['Logout'];
 
-function NavbarComponent() {
-    const {isLoggedIn, logout} = React.useContext(AuthContext);
-    const [anchorElNav, setAnchorElNav] = React.useState(null);
-    const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const navigate = useNavigate();
-    /*const handleOpenNavMenu = (event) => {
-      setAnchorElNav(event.currentTarget);
-    };*/
-  
-    const handleOpenUserMenu = (event) => {
-      setAnchorElUser(event.currentTarget);
-    };
+const NavbarComponent: React.FC = () => {
+  const { isLoggedIn, logout } = React.useContext(AuthContext);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
+  const navigate = useNavigate();
+
+  const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElUser(event.currentTarget);
+  };
 
   const handleCloseNavMenu = () => {
     setAnchorElNav(null);
@@ -39,14 +36,16 @@ function NavbarComponent() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const handleMenuItemClick = (setting) => {
+
+  const handleMenuItemClick = (setting: string) => {
     if (setting === 'Logout') {
       logout(); // Call the logout function
-      navigate('/')
+      navigate('/');
     }
     handleCloseUserMenu();
   };
-  const handleNavigate = (path) => {
+
+  const handleNavigate = (path: string) => {
     navigate(path);
     handleCloseNavMenu();
   };
@@ -59,7 +58,7 @@ function NavbarComponent() {
             variant="h6"
             noWrap
             component={Link}
-            to = "/"
+            to="/"
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -73,21 +72,19 @@ function NavbarComponent() {
             GymTracker
           </Typography>
 
-          
-          
           {isLoggedIn && (
             <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'space-between' }}>
-              <Box sx={ {display: 'flex' /*{ flexGrow: 1, display: { xs: 'none', md: 'flex' } */}}>
-              {pages.map((page) => (
+              <Box sx={{ display: 'flex' }}>
+                {pages.map((page) => (
                   <Button
                     key={page.title}
                     onClick={() => handleNavigate(page.path)}
                     sx={{ my: 2, color: 'white', display: 'block' }}
                   >
                     {page.title}
-              </Button>
-            ))}
-             </Box>
+                  </Button>
+                ))}
+              </Box>
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
@@ -97,7 +94,6 @@ function NavbarComponent() {
                 sx={{ mt: '45px' }}
                 id="menu-appbar"
                 anchorEl={anchorElUser}
-                anchorElNav={anchorElNav}
                 anchorOrigin={{
                   vertical: 'top',
                   horizontal: 'right',
@@ -116,12 +112,12 @@ function NavbarComponent() {
                   </MenuItem>
                 ))}
               </Menu>
-            </Box>)
-          
-          }
+            </Box>
+          )}
         </Toolbar>
       </Container>
     </AppBar>
   );
-}
+};
+
 export default NavbarComponent;

@@ -1,7 +1,7 @@
 // api.js
 //require('dotenv').config({path: './.env'});
 import axios from 'axios';
-const apiURL = 'https://taurel-server.vercel.app/'
+const apiURL = 'http://localhost:8082'
 const Api = () => {
     return axios.create({
         baseURL: apiURL

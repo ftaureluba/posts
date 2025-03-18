@@ -111,7 +111,7 @@ function Signup() {
     }
   };
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     
     if (!validateStep1() || !validateStep2() || !validateStep3()) {
@@ -143,7 +143,7 @@ function Signup() {
             <Typography variant="h6" gutterBottom>Informacion Personal</Typography>
             <StyledTextField
               fullWidth
-              margin="normal"
+              margin="dense"
               label="Nombre"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
@@ -184,9 +184,9 @@ function Signup() {
             <Typography variant="h6" gutterBottom>Objetivos</Typography>
             <StyledSelect
               fullWidth
-              margin="normal"
+              margin="dense"
               value={trainingFrequency}
-              onChange={(e) => setTrainingFrequency(e.target.value)}
+              onChange={(e) => setTrainingFrequency(e.target.value as string)}
               required
               displayEmpty
             >
@@ -197,9 +197,9 @@ function Signup() {
             </StyledSelect>
             <StyledSelect
               fullWidth
-              margin="normal"
+              margin="dense"
               value={gymObjective}
-              onChange={(e) => setGymObjective(e.target.value)}
+              onChange={(e) => setGymObjective(e.target.value as string)}
               required
               displayEmpty
               sx={{ mt: 2 }}
