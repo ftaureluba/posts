@@ -1,25 +1,30 @@
-export const registerServiceWorker = async() : Promise<void> => {
+export const registerServiceWorker = async (): Promise<void> => {
   if ('serviceWorker' in navigator) {
     try {
       const registration = await navigator.serviceWorker.register('/service-worker.js');
-      console.log('Service worker registrado exitosamente: ', registration);
-
-      registration.addEventListener('updatefound', () => {
-        if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-
-          if (confirm('New version availabe! Reload? ')){
-            window.location.reload();
+      console.log('Service Worker registered successfully:', registration);
+      
+      // Only check for updates in production to avoid development reload loops
+      if (process.env.NODE_ENV === 'production') {
+        registration.addEventListener('updatefound', () => {
+          const newWorker = registration.installing;
+          if (newWorker) {
+            newWorker.addEventListener('statechange', () => {
+              if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                // New content available, notify user
+                if (confirm('New version available! Reload to update?')) {
+                  window.location.reload();
+                }
+              }
+            });
           }
-        }
-      });
-
-    } catch(error){
-      console.error('Service worker registation failed: ', error);
+        });
+      }
+    } catch (error) {
+      console.error('Service Worker registration failed:', error);
     }
   }
-}
-
-
+};
 
 
 export const isPWA = () : boolean =>{
