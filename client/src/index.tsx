@@ -4,6 +4,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { registerServiceWorker, setupInstallPrompt } from './utils/pwa-utils';
+
+
 
 // Ensure the root element exists and is not null
 const rootElement = document.getElementById('root');
@@ -22,3 +25,8 @@ root.render(
 );
 
 reportWebVitals(console.log);
+
+window.AddEventListener('load', () => {
+  registerServiceWorker();
+  setupInstallPrompt();
+})

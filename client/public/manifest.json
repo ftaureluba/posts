@@ -1,6 +1,8 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Fitness App",
+  "name": "Test Fitness App",
+  "description": "Free fitness app for ios and android",
+  "orientation" : "portrait-primary",
   "icons": [
     {
       "src": "favicon.ico",
