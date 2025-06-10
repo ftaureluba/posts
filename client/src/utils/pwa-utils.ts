@@ -33,7 +33,7 @@ export const canInstallPWA = () : boolean => {
 
 let deferredPrompt: any;
 
-export const setupInstallPRompt = () : void => {
+export const setupInstallPrompt = () : void => {
   window.addEventListener('beforeinstallprompt', (e) => {
     e.preventDefault();
     deferredPrompt = e;
