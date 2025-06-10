@@ -26,7 +26,7 @@ root.render(
 
 reportWebVitals(console.log);
 
-window.AddEventListener('load', () => {
+window.addEventListener('load', () => {
   registerServiceWorker();
   setupInstallPrompt();
 })
